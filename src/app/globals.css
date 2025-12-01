@@ -1,4 +1,4 @@
-@import "tailwindcss";
+/* @import "tailwindcss";
 
 :root {
   --background: #ffffff;
@@ -23,4 +23,127 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+} */
+
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800;900&display=swap');
+
+@import "tailwindcss";
+
+/* Theme Variables */
+:root {
+  --color-forest-50: #f0f7f0;
+  --color-forest-100: #dce9dc;
+  --color-forest-200: #bdd5bd;
+  --color-forest-300: #96b996;
+  --color-forest-400: #6f9a6f;
+  --color-forest-500: #557d55;
+  --color-forest-600: #426342;
+  --color-forest-700: #354f35;
+  --color-forest-800: #2b3f2b;
+  --color-forest-900: #1a2d1a;
+  --color-forest-950: #0f1f0f;
+  
+  --color-trail-50: #fef6ee;
+  --color-trail-100: #fdead7;
+  --color-trail-200: #f9d0ae;
+  --color-trail-300: #f4af7a;
+  --color-trail-400: #ee8646;
+  --color-trail-500: #ea6c24;
+  --color-trail-600: #db511a;
+  --color-trail-700: #b63d18;
+  
+  --color-earth-800: #5d402a;
+  --color-earth-900: #4f3626;
+  --color-earth-950: #2c1d15;
+}
+
+/* Theme Configuration */
+@theme {
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-heading: 'Montserrat', system-ui, sans-serif;
+  
+  --color-forest-50: var(--color-forest-50);
+  --color-forest-100: var(--color-forest-100);
+  --color-forest-200: var(--color-forest-200);
+  --color-forest-300: var(--color-forest-300);
+  --color-forest-400: var(--color-forest-400);
+  --color-forest-500: var(--color-forest-500);
+  --color-forest-600: var(--color-forest-600);
+  --color-forest-700: var(--color-forest-700);
+  --color-forest-800: var(--color-forest-800);
+  --color-forest-900: var(--color-forest-900);
+  --color-forest-950: var(--color-forest-950);
+  
+  --color-trail-50: var(--color-trail-50);
+  --color-trail-100: var(--color-trail-100);
+  --color-trail-200: var(--color-trail-200);
+  --color-trail-300: var(--color-trail-300);
+  --color-trail-400: var(--color-trail-400);
+  --color-trail-500: var(--color-trail-500);
+  --color-trail-600: var(--color-trail-600);
+  --color-trail-700: var(--color-trail-700);
+  
+  --color-earth-800: var(--color-earth-800);
+  --color-earth-900: var(--color-earth-900);
+  --color-earth-950: var(--color-earth-950);
+  
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  
+  --animate-pulse-slow: pulse 3s ease-in-out infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-glow: glow 2s ease-in-out infinite alternate;
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  @keyframes glow {
+    from { box-shadow: 0 0 10px rgba(234, 108, 36, 0.3); }
+    to { box-shadow: 0 0 20px rgba(234, 108, 36, 0.6); }
+  }
+}
+
+/* Base Styles */
+body {
+  @apply bg-forest-950 text-forest-100 font-sans antialiased;
+  background: linear-gradient(180deg, var(--color-forest-950) 0%, var(--color-forest-900) 100%);
+  min-height: 100vh;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  @apply w-2;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-forest-900;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-forest-600 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-forest-500;
+}
+
+::selection {
+  @apply bg-trail-500/30 text-white;
+}
+
+/* Forest Overlay Effect */
+.forest-overlay {
+  @apply relative;
+}
+
+.forest-overlay::before {
+  content: '';
+  @apply absolute inset-0 pointer-events-none -z-10;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(85, 125, 85, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(66, 99, 66, 0.05) 0%, transparent 50%);
 }
