@@ -44,4 +44,8 @@ export const ICONS = {
   instagram: 'fa6-brands:instagram',
   facebook: 'fa6-brands:facebook',
   twitter: 'fa6-brands:x-twitter',
+  health: 'healthicons:health',
+  info: 'heroicons:information-circle',
+  warning: 'heroicons:exclamation-triangle',
+  checkCircle: 'heroicons:check-circle',
 }
