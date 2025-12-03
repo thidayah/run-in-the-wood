@@ -1,8 +1,12 @@
 import { Iconify, ICONS } from "@/lib/icons"
 import { Card } from "./Card"
 import { Button } from "./Button"
+import { Event } from "@/lib/supabase/events/types"
+import { useRouter } from "next/navigation"
 
-export default function EventCard({ event }: { event: any }) {
+export default function EventCard({ event }: { event: Event }) {
+  const router = useRouter()
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
     return date.toLocaleDateString('en-US', {
@@ -20,21 +24,21 @@ export default function EventCard({ event }: { event: any }) {
     }).format(price)
   }
 
-  // const participantPercentage = (event.currentParticipants / event.maxParticipants) * 100
+  // const participantPercentage = (event.current_participants / event.max_participants) * 100
 
   return (
-    // <Card glow={event.registrationOpen}>
+    // <Card glow={event.registration_open}>
     <Card >
       {/* Event Image */}
       <div className="relative aspect-video w-full mb-4 rounded-t-xl overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${event.imageUrl})` }}
+          style={{ backgroundImage: `url(${event.image_url})` }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-forest-950/80 to-transparent"></div>
 
         {/* Status Badge */}
-        {/* {!event.registrationOpen && (
+        {/* {!event.registration_open && (
           <div className="absolute top-3 right-3">
             <span className="px-3 py-1 rounded-full bg-forest-700/80 text-forest-300 text-xs font-medium">
               Sold Out
@@ -88,11 +92,11 @@ export default function EventCard({ event }: { event: any }) {
             {/* Participants Progress */}
             {/* <div className="text-right">
               <div className="text-xs text-forest-300">
-                {event.currentParticipants}/{event.maxParticipants}
+                {event.current_participants}/{event.max_participants}
               </div>
               <div className="w-24 h-1.5 bg-forest-800 rounded-full overflow-hidden mt-1">
                 <div
-                  className={`h-full rounded-full ${event.registrationOpen ? 'bg-trail-500' : 'bg-forest-600'}`}
+                  className={`h-full rounded-full ${event.registration_open ? 'bg-trail-500' : 'bg-forest-600'}`}
                   style={{ width: `${Math.min(participantPercentage, 100)}%` }}
                 />
               </div>
@@ -103,9 +107,10 @@ export default function EventCard({ event }: { event: any }) {
         {/* Action Button */}
         <Button
           className="w-full"
-          disabled={!event.registrationOpen}
+          disabled={!event.registration_open}
+          onClick={() => router.push(`/registration/${event.id}`)}
         >
-          {event.registrationOpen ? 'Register Now' : 'Sold Out'}
+          {event.registration_open ? 'Register Now' : 'Sold Out'}
         </Button>
       </div>
     </Card>
