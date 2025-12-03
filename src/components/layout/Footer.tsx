@@ -2,6 +2,12 @@
 import { Iconify, ICONS } from "@/lib/icons";
 import { usePathname, useRouter } from "next/navigation";
 
+const navigation = [
+  { name: 'Home', href: '#home' },
+  { name: 'About', href: '#about' },
+  { name: 'Events', href: '#events' },
+]
+
 export default function Footer() {
   const pathname = usePathname()
   const router = useRouter()
@@ -34,7 +40,7 @@ export default function Footer() {
     <footer className="border-t border-forest-800 py-12" >
       <div className="container mx-auto px-4">
         {/* <div className="grid md:grid-cols-4 gap-8 mb-8"> */}
-        <div className="flex justify-between gap-8 mb-8">
+        <div className="flex flex-col md:flex-row md:justify-between gap-8 mb-8">
           <div>
             <div className="flex items-center gap-2 mb-4">
               <Iconify
@@ -80,10 +86,10 @@ export default function Footer() {
           <div>
             <h4 className="font-heading font-bold mb-4">Follow Us</h4>
             <div className="flex gap-4">
-              <a href="#" className="text-forest-400 hover:text-trail-500">
+              <a href="https://www.instagram.com/sobatsabtu" target="_blank" className="text-forest-400 hover:text-trail-500">
                 <Iconify icon={ICONS.instagram} className="h-6 w-6" />
               </a>
-              <a href="#" className="text-forest-400 hover:text-trail-500">
+              <a href="https://www.x.com/sobatsabtu" target="_blank" className="text-forest-400 hover:text-trail-500">
                 <Iconify icon={ICONS.twitter} className="h-6 w-6" />
               </a>
             </div>
@@ -99,9 +105,3 @@ export default function Footer() {
     </footer>
   )
 }
-
-const navigation = [
-  { name: 'Home', href: '#home' },
-  { name: 'About', href: '#about' },
-  { name: 'Events', href: '#events' },
-]
