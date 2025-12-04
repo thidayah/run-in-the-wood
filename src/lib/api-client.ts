@@ -58,9 +58,9 @@ export const eventsApi = {
   //     method: 'DELETE',
   //   }),
   
-  // // GET upcoming events
-  // getUpcoming: (limit?: number) => 
-  //   apiRequest<Event[]>(`/events/upcoming${limit ? `?limit=${limit}` : ''}`),
+  // GET upcoming events
+  getUpcoming: (limit?: number) => 
+    apiRequest<Event[]>(`/events/upcoming${limit ? `?limit=${limit}` : ''}`),
 }
 
 export const participantsApi = {
@@ -76,8 +76,8 @@ export const participantsApi = {
     }),
   
   // GET participant by unique code
-  // getByCode: (code: string) => 
-  //   apiRequest<Participant>(`/participants/code/${code}`),
+  getByCode: (code: string) => 
+    apiRequest<Participant>(`/participants/code/${code}`),
   
   // PUT update participant payment status
   updatePayment: (id: string, paymentData: { 

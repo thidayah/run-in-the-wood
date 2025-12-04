@@ -28,6 +28,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
           date,
           location,
           distance,
+          elevation,
           price,
           registration_open,
           image_url
