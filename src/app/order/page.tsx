@@ -1,7 +1,6 @@
 'use client'
 
-import { useState, useEffect, Suspense } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useState, useEffect, Suspense, use } from 'react'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { Iconify, ICONS } from '@/lib/icons'
@@ -9,9 +8,13 @@ import Image from 'next/image'
 import Template from "@/components/layout/Template"
 import { participantsApi } from "@/lib/api-client"
 
-export default function OrderPage() {
-  const searchParams = useSearchParams()
-  const orderCode = searchParams.get('code')
+interface ParamsTypes {
+  code: string;
+}
+
+export default function OrderPage({ searchParams }: { searchParams: Promise<ParamsTypes> }) {
+  const orderCode = use(searchParams).code
+  // const orderCode = searchParams.get('code')
 
   const [timeLeft, setTimeLeft] = useState(600) // 10 menit dalam detik
   const [isExpired, setIsExpired] = useState(false)
@@ -124,14 +127,16 @@ Mohon konfirmasi pembayaran saya. Terima kasih!
 
   if (loading) {
     return (
-      <Template>
-        <div className="container mx-auto px-4 py-20 min-h-[100svh] flex justify-center items-center">
-          <div className="  text-center ">
-            <Iconify icon="svg-spinners:ring-resize" className="h-12 w-12 mx-auto mb-6 text-trail-500" />
-            <p className="text-forest-300 text-center">Loading...</p>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Template>
+          <div className="container mx-auto px-4 py-20 min-h-[100svh] flex justify-center items-center">
+            <div className="  text-center ">
+              <Iconify icon="svg-spinners:ring-resize" className="h-12 w-12 mx-auto mb-6 text-trail-500" />
+              <p className="text-forest-300 text-center">Loading...</p>
+            </div>
           </div>
-        </div>
-      </Template>
+        </Template>
+      </Suspense>
     )
   }
 
