@@ -1,38 +1,18 @@
-/* @import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-} */
-
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800;900&display=swap');
 
 @import "tailwindcss";
 
 /* Theme Variables */
 :root {
-  --color-forest-50: #f0f7f0;
+  /* Forest for background
+  Trail for item */
+  
+  /* --color-earth-800: #5d402a;
+  --color-earth-900: #4f3626;
+  --color-earth-950: #2c1d15; */
+
+  /* Theme 1 */
+  /* --color-forest-50: #f0f7f0;
   --color-forest-100: #dce9dc;
   --color-forest-200: #bdd5bd;
   --color-forest-300: #96b996;
@@ -42,20 +22,116 @@ body {
   --color-forest-700: #354f35;
   --color-forest-800: #2b3f2b;
   --color-forest-900: #1a2d1a;
-  --color-forest-950: #0f1f0f;
+  --color-forest-950: #0f1f0f; */
   
-  --color-trail-50: #fef6ee;
+  /* --color-trail-50: #fef6ee;
   --color-trail-100: #fdead7;
   --color-trail-200: #f9d0ae;
   --color-trail-300: #f4af7a;
   --color-trail-400: #ee8646;
   --color-trail-500: #ea6c24;
   --color-trail-600: #db511a;
-  --color-trail-700: #b63d18;
+  --color-trail-700: #b63d18; */
   
-  --color-earth-800: #5d402a;
-  --color-earth-900: #4f3626;
-  --color-earth-950: #2c1d15;
+  /* Theme 2 */
+  /* --color-forest-50: #f6faf3;
+  --color-forest-100: #e9f5e3;
+  --color-forest-200: #d3eac7;
+  --color-forest-300: #afd89d;
+  --color-forest-400: #87c173;
+  --color-forest-500: #669f52; 
+  --color-forest-600: #4f7e3f;
+  --color-forest-700: #3f6432;
+  --color-forest-800: #34502a;
+  --color-forest-900: #2c4224;
+  --color-forest-950: #152311; */
+
+  --color-trail-50: #f7fee7;
+  --color-trail-100: #ecfccb;
+  --color-trail-200: #d9f99d;
+  --color-trail-300: #bef264;
+  --color-trail-400: #a3e635;
+  --color-trail-500: #84cc16;
+  --color-trail-600: #65a30d;
+  --color-trail-700: #4d7c0f;
+
+
+  /* Theme 3 */
+  --color-forest-50: #fafaf9;
+  --color-forest-100: #f5f5f4;
+  --color-forest-200: #e7e5e4;
+  --color-forest-300: #d6d3d1;
+  --color-forest-400: #a8a29e;
+  --color-forest-500: #78716c;
+  --color-forest-600: #57534e;
+  --color-forest-700: #44403c;
+  --color-forest-800: #292524;
+  --color-forest-900: #1c1917;
+  --color-forest-950: #0c0a09;
+
+   /* Stone Grays - Cool contrast */
+  /* --color-trail-50: #fafafa;
+  --color-trail-100: #f5f5f5;
+  --color-trail-200: #e5e5e5;
+  --color-trail-300: #d4d4d4;
+  --color-trail-400: #a3a3a3;
+  --color-trail-500: #737373;
+  --color-trail-600: #525252;
+  --color-trail-700: #404040;
+  --color-trail-800: #262626;
+  --color-trail-900: #171717; */
+
+  
+  /* Moonlit Grays - For shadows and depth */
+  /* --color-forest-50: #f9fafb;
+  --color-forest-100: #f3f4f6;
+  --color-forest-200: #e5e7eb;
+  --color-forest-300: #d1d5db;
+  --color-forest-400: #9ca3af;
+  --color-forest-500: #6b7280;
+  --color-forest-600: #4b5563;
+  --color-forest-700: #374151;
+  --color-forest-800: #1f2937;
+  --color-forest-900: #111827;
+  --color-forest-950: #030712; */
+  
+  /* Natural Greens - More earthy, less vibrant */
+  /* --color-trail-50: #f6faf3;
+  --color-trail-100: #e9f5e3;
+  --color-trail-200: #d3eac7;
+  --color-trail-300: #afd89d;
+  --color-trail-400: #87c173;
+  --color-trail-500: #669f52;
+  --color-trail-600: #4f7e3f;
+  --color-trail-700: #3f6432;
+  --color-trail-800: #34502a;
+  --color-trail-900: #2c4224;
+  --color-trail-950: #152311; */
+  
+  
+  /* Sand/Tan - For neutral backgrounds */
+  /* --color-trail-50: #fdfcf8;
+  --color-trail-100: #f9f6eb;
+  --color-trail-200: #f2ecd4;
+  --color-trail-300: #e8ddb2;
+  --color-trail-400: #d8c787;
+  --color-trail-500: #c5b069;
+  --color-trail-600: #ae9855;
+  --color-trail-700: #907a46;
+  --color-trail-800: #75633b;
+  --color-trail-900: #605232; */
+  
+  /* Bark Browns - For depth and contrast */
+  /* --color-trail-50: #faf7f2;
+  --color-trail-100: #f1e9db;
+  --color-trail-200: #e1d2b8;
+  --color-trail-300: #cdb58b;
+  --color-trail-400: #b89561;
+  --color-trail-500: #a47c47;
+  --color-trail-600: #8a653c;
+  --color-trail-700: #6f5133;
+  --color-trail-800: #5b422b;
+  --color-trail-900: #4b3724; */  
 }
 
 /* Theme Configuration */
