@@ -74,7 +74,7 @@ export default function Footer() {
             <ul className="space-y-2 text-sm text-forest-400">
               <li className="flex items-center gap-2">
                 <Iconify icon={ICONS.phone} className="h-4 w-4" />
-                <span>+62 896 3493 4225</span>
+                <span>+62 877 3781 5286</span>
               </li>
               <li className="flex items-center gap-2">
                 <Iconify icon={ICONS.mail} className="h-4 w-4" />

@@ -28,9 +28,9 @@ export default function EventCard({ event }: { event: Event }) {
 
   return (
     // <Card glow={event.registration_open}>
-    <Card >
+    <Card>
       {/* Event Image */}
-      <div className="relative aspect-video w-full mb-4 rounded-t-xl overflow-hidden">
+      <div className="relative h-56 aspect-video w-full mb-4 rounded-t-xl overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${event.image_url})` }}
