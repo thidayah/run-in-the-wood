@@ -48,4 +48,5 @@ export const ICONS = {
   info: 'heroicons:information-circle',
   warning: 'heroicons:exclamation-triangle',
   checkCircle: 'heroicons:check-circle',
+  loading: 'svg-spinners:ring-resize',
 }
