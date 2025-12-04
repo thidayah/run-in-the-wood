@@ -10,21 +10,6 @@ import Template from "@/components/layout/Template"
 import { eventsApi, participantsApi } from "@/lib/api-client"
 import { Event } from "@/lib/supabase/events/types"
 
-// Data dummy event
-const MOCK_EVENT = {
-  id: '1',
-  title: 'Mountain Forest Challenge',
-  date: '2024-03-15',
-  location: 'Gunung Gede Pangrango National Park',
-  distance: '25KM',
-  elevation: '750M',
-  registrationFee: 350000,
-  maxParticipants: 200,
-  currentParticipants: 156,
-  registrationOpen: true,
-  description: 'A challenging 25km trail through dense mountain forests with elevation gains up to 1500m.'
-}
-
 export default function RegistrationPage() {
   const params: { id: string } = useParams()
 
@@ -33,7 +18,6 @@ export default function RegistrationPage() {
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [event, setEvent] = useState<Event | null>(null)
   const [loading, setLoading] = useState(true)
-
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
