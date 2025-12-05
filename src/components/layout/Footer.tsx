@@ -29,7 +29,7 @@ export default function Footer() {
         }
       } else {
         const targetId = href.substring(1)
-        router.push(`/${targetId === 'home' ? '/' : '#'+targetId}`)
+        router.push(`/${targetId === 'home' ? '/' : '#' + targetId}`)
       }
     } else {
       router.push(`${href}`)
@@ -103,5 +103,24 @@ export default function Footer() {
         </div>
       </div>
     </footer>
+
+    // <footer className="border-t border-forest-800 py-8">
+    //   <div className="container mx-auto px-4">
+    //     <div className="flex flex-col md:flex-row justify-between items-center">
+    //       <div className="flex items-center gap-2 mb-4 md:mb-0">
+    //         <Iconify
+    //           icon={ICONS.tree}
+    //           className="h-6 w-6 text-trail-500"
+    //         />
+    //         <span className="font-heading font-bold">
+    //           Run in the <span className="text-trail-500">Wood</span>
+    //         </span>
+    //       </div>
+    //       <p className="text-sm text-forest-400 text-center md:text-right">
+    //         © {new Date().getFullYear()} Run in the Wood. All rights reserved.
+    //       </p>
+    //     </div>
+    //   </div>
+    // </footer>
   )
 }
