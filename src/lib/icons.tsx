@@ -49,4 +49,5 @@ export const ICONS = {
   warning: 'heroicons:exclamation-triangle',
   checkCircle: 'heroicons:check-circle',
   loading: 'svg-spinners:ring-resize',
+  search: 'heroicons:magnifying-glass',
 }

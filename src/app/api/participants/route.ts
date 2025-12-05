@@ -3,19 +3,6 @@ import { supabaseServer } from "@/lib/supabase/server"
 import { successResponse, errorResponse } from '@/lib/api-response'
 import { CreateParticipant } from "@/lib/supabase/participants/types"
 
-// interface CreateParticipantDTO {
-//   event_id: string
-//   full_name: string
-//   email: string
-//   phone_number: string
-//   birth_date: string
-//   gender: 'male' | 'female' | 'other'
-//   emergency_contact_name?: string
-//   emergency_contact_phone?: string
-//   medical_notes?: string
-//   payment_amount: number
-// }
-
 export async function POST(request: NextRequest) {
   try {
     const body: CreateParticipant = await request.json()
@@ -167,6 +154,199 @@ export async function POST(request: NextRequest) {
 
   } catch (error: any) {
     console.error('POST /api/participants error:', error)
+
+    return NextResponse.json(
+      errorResponse('Internal server error', error),
+      { status: 500 }
+    )
+  }
+}
+
+export async function GET(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url)
+
+    // Parse query parameters
+    const page = parseInt(searchParams.get('page') || '1')
+    const limit = parseInt(searchParams.get('limit') || '20')
+    const eventId = searchParams.get('event_id')
+    const search = searchParams.get('search')
+    const paymentStatus = searchParams.get('payment_status')
+    const sortBy = searchParams.get('sort_by') || 'created_at'
+    const sortOrder = searchParams.get('sort_order') || 'desc'
+
+    // Validate pagination
+    if (page < 1) {
+      return NextResponse.json(
+        errorResponse('Page must be greater than 0'),
+        { status: 400 }
+      )
+    }
+
+    if (limit < 1 || limit > 100) {
+      return NextResponse.json(
+        errorResponse('Limit must be between 1 and 100'),
+        { status: 400 }
+      )
+    }
+
+    // First, get total count to validate page range
+    let countQuery = supabaseServer
+      .from('participants')
+      .select('*', { count: 'exact', head: true })
+
+    // Apply filters to count query too
+    if (eventId) {
+      countQuery = countQuery.eq('event_id', eventId)
+    }
+
+    if (paymentStatus) {
+      countQuery = countQuery.eq('payment_status', paymentStatus)
+    }
+
+    if (search) {
+      countQuery = countQuery.or(`full_name.ilike.%${search}%,email.ilike.%${search}%,phone_number.ilike.%${search}%,unique_code.ilike.%${search}%`)
+    }
+
+    const { count, error: countError } = await countQuery
+
+    if (countError) {
+      console.error('Count query error:', countError)
+      return NextResponse.json(
+        errorResponse('Failed to count participants', countError),
+        { status: 500 }
+      )
+    }
+
+    const total = count || 0
+    const totalPages = Math.ceil(total / limit)
+
+    // Validate page range
+    if (page > totalPages && totalPages > 0) {
+      return NextResponse.json(
+        errorResponse(`Page ${page} is out of range. Total pages: ${totalPages}`),
+        { status: 400 }
+      )
+    }
+
+    // If no data but page is 1, return empty result
+    if (total === 0) {
+      const responseData = {
+        participants: [],
+        pagination: {
+          page: 1,
+          limit,
+          total: 0,
+          total_pages: 0,
+          has_next: false,
+          has_prev: false,
+          next_page: null,
+          prev_page: null
+        },
+        filters: {
+          event_id: eventId,
+          search: search,
+          payment_status: paymentStatus,
+          sort_by: sortBy,
+          sort_order: sortOrder
+        }
+      }
+
+      return NextResponse.json(
+        successResponse(responseData, 'No participants found'),
+        { status: 200 }
+      )
+    }
+
+    // Calculate offset safely
+    const offset = Math.min((page - 1) * limit, Math.max(0, total - 1))
+
+    // Build main query
+    let query = supabaseServer
+      .from('participants')
+      .select(`
+        *,
+        events (
+          id,
+          title,
+          date,
+          location,
+          distance,
+          elevation
+        )
+      `)
+
+    // Apply filters (same as count query)
+    if (eventId) {
+      query = query.eq('event_id', eventId)
+    }
+
+    if (paymentStatus) {
+      query = query.eq('payment_status', paymentStatus)
+    }
+
+    if (search) {
+      query = query.or(`full_name.ilike.%${search}%,email.ilike.%${search}%,phone_number.ilike.%${search}%,unique_code.ilike.%${search}%`)
+    }
+
+    // Apply sorting
+    const validSortColumns = [
+      'created_at', 'updated_at', 'registration_date',
+      'full_name', 'payment_status', 'payment_amount'
+    ]
+
+    const sortColumn = validSortColumns.includes(sortBy)
+      ? sortBy
+      : 'created_at'
+
+    const order = sortOrder.toLowerCase() === 'asc' ? 'asc' : 'desc'
+
+    // Execute query with pagination
+    const { data: participants, error } = await query
+      .order(sortColumn, { ascending: order === 'asc' })
+      .range(offset, offset + limit - 1)
+
+    if (error) {
+      console.error('GET /api/participants error:', error)
+      return NextResponse.json(
+        errorResponse('Failed to retrieve participants', error),
+        { status: 500 }
+      )
+    }
+
+    // Calculate pagination info
+    const hasNextPage = page < totalPages
+    const hasPrevPage = page > 1
+
+    // Format response
+    const responseData = {
+      items: participants || [],
+      pagination: {
+        page,
+        limit,
+        total,
+        total_pages: totalPages,
+        has_next: hasNextPage,
+        has_prev: hasPrevPage,
+        next_page: hasNextPage ? page + 1 : null,
+        prev_page: hasPrevPage ? page - 1 : null
+      },
+      filters: {
+        event_id: eventId,
+        search: search,
+        payment_status: paymentStatus,
+        sort_by: sortColumn,
+        sort_order: order
+      }
+    }
+
+    return NextResponse.json(
+      successResponse(responseData, 'Participants retrieved successfully'),
+      { status: 200 }
+    )
+
+  } catch (error: any) {
+    console.error('GET /api/participants error:', error)
 
     return NextResponse.json(
       errorResponse('Internal server error', error),
