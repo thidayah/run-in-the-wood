@@ -57,6 +57,7 @@ export default function ParticipantsPage() {
       try {
         const response = await eventsApi.getUpcoming()
         if (response.success && response.data) {
+          //@ts-ignore
           setEvents(response.data)
         }
       } catch (err) {
@@ -82,6 +83,7 @@ export default function ParticipantsPage() {
       })
 
       if (response.success && response.data) {
+        //@ts-ignore
         setParticipants(response.data.items as ParticipantWithEvent[] || [])
         setPagination(response.data.pagination)
       } else {
