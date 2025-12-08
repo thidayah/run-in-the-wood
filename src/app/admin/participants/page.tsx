@@ -47,6 +47,7 @@ export default function AdminParticipantsPage() {
   const [events, setEvents] = useState<Event[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [refresh, setRefresh] = useState(true)
   const [filters, setFilters] = useState({
     page: 1,
     limit: 20,
@@ -69,14 +70,13 @@ export default function AdminParticipantsPage() {
     const loadEvents = async () => {
       try {
         const response = await eventsApi.getAll()
-        if (response.success && response.data) {          
+        if (response.success && response.data) {
           setEvents(response.data as any)
         }
       } catch (err) {
         console.error('Failed to load events:', err)
       }
     }
-    
     loadEvents()
   }, [])
 
@@ -85,7 +85,7 @@ export default function AdminParticipantsPage() {
     try {
       setLoading(true)
       setError(null)
-      
+
       const response = await participantsApi.getAll({
         page: filters.page,
         limit: filters.limit,
@@ -93,7 +93,7 @@ export default function AdminParticipantsPage() {
         search: filters.search || undefined,
         payment_status: filters.payment_status || undefined
       })
-      
+
       if (response.success && response.data) {
         setParticipants(response.data.items as Participant[])
         setPagination(response.data.pagination)
@@ -104,12 +104,19 @@ export default function AdminParticipantsPage() {
       setError(err.message || 'Something went wrong')
     } finally {
       setLoading(false)
+      setRefresh(false)
     }
   }
 
   useEffect(() => {
     loadParticipants()
   }, [filters.page, filters.event_id, filters.payment_status])
+
+  useEffect(() => {
+    if (refresh) {
+      loadParticipants()
+    }
+  }, [refresh])
 
   const handleSearch = () => {
     setFilters(prev => ({ ...prev, page: 1 }))
@@ -123,16 +130,16 @@ export default function AdminParticipantsPage() {
   const handleUpdatePaymentStatus = async (id: string, newStatus: 'paid' | 'expired' | 'cancelled') => {
     try {
       setUpdatingPayment(id)
-      
+
       const response = await participantsApi.updatePayment(id, {
         status: newStatus,
         payment_date: newStatus === 'paid' ? new Date().toISOString() : undefined
       })
-      
+
       if (response.success && response.data) {
         // Update local state
-        setParticipants(prev => prev.map(p => 
-          p.id === id 
+        setParticipants(prev => prev.map(p =>
+          p.id === id
             ? { ...p, payment_status: newStatus, payment_date: response.data?.payment_date || null }
             : p
         ))
@@ -196,11 +203,11 @@ export default function AdminParticipantsPage() {
     const birth = new Date(birthDate)
     let age = today.getFullYear() - birth.getFullYear()
     const monthDiff = today.getMonth() - birth.getMonth()
-    
+
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
       age--
     }
-    
+
     return age
   }
 
@@ -222,7 +229,7 @@ export default function AdminParticipantsPage() {
       'Emergency Contact',
       'Emergency Phone'
     ]
-    
+
     const rows = participants.map(p => [
       p.unique_code,
       p.full_name,
@@ -239,17 +246,17 @@ export default function AdminParticipantsPage() {
       p.emergency_contact_name || '',
       p.emergency_contact_phone || ''
     ])
-    
+
     const csvContent = [
       headers.join(','),
       ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
     ].join('\n')
-    
-    const blob = new Blob([csvContent], { type: 'text/csv' })
+
+    const blob = new Blob([csvContent], { type: 'text/xls' })
     const url = window.URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `participants_${new Date().toISOString().split('T')[0]}.csv`
+    a.download = `Participants_${new Date().toISOString().split('T')[0]}.xls`
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
@@ -267,7 +274,7 @@ export default function AdminParticipantsPage() {
                 <h1 className="font-heading text-3xl font-bold mb-2">Participants Management</h1>
                 <p className="text-forest-300">Manage all event registrations and payments</p>
               </div>
-              
+
               <div className="flex gap-2">
                 <Button
                   onClick={exportToCSV}
@@ -289,28 +296,33 @@ export default function AdminParticipantsPage() {
                   <p className="text-sm text-forest-400">Total Participants</p>
                   <p className="text-3xl font-bold">{pagination.total}</p>
                 </div>
-                <Iconify 
+                <Iconify
                   icon={ICONS.users}
                   className="h-10 w-10 text-trail-500"
                 />
               </div>
             </Card>
-            
+
             <Card className="p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-forest-400">Paid</p>
-                  <p className="text-3xl font-bold text-green-500">
-                    {participants.filter(p => p.payment_status === 'paid').length}
-                  </p>
+                  <div className=" flex items-end space-x-2">
+                    <p className="text-3xl font-bold text-green-500">
+                      {participants.filter(p => p.payment_status === 'paid').length}
+                    </p>
+                    <p className="text-sm mb-1">
+                      {formatPrice(participants.filter(p => p.payment_status === 'paid').reduce((sum, part) => sum + part.payment_amount, 0))}
+                    </p>
+                  </div>
                 </div>
-                <Iconify 
+                <Iconify
                   icon="heroicons:banknotes"
                   className="h-10 w-10 text-green-500"
                 />
               </div>
             </Card>
-            
+
             <Card className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -319,13 +331,13 @@ export default function AdminParticipantsPage() {
                     {participants.filter(p => p.payment_status === 'pending').length}
                   </p>
                 </div>
-                <Iconify 
+                <Iconify
                   icon="heroicons:clock"
                   className="h-10 w-10 text-yellow-500"
                 />
               </div>
             </Card>
-            
+
             <Card className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -334,7 +346,7 @@ export default function AdminParticipantsPage() {
                     {participants.filter(p => p.payment_status === 'cancelled').length}
                   </p>
                 </div>
-                <Iconify 
+                <Iconify
                   icon="heroicons:x-circle"
                   className="h-10 w-10 text-red-500"
                 />
@@ -351,7 +363,7 @@ export default function AdminParticipantsPage() {
                   Search
                 </label>
                 <div className="relative">
-                  <Iconify 
+                  <Iconify
                     icon={ICONS.search}
                     className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-forest-500"
                   />
@@ -430,7 +442,7 @@ export default function AdminParticipantsPage() {
                 <Iconify icon={ICONS.search} className="h-4 w-4" />
                 Apply Filters
               </Button>
-              
+
               <Button
                 onClick={() => {
                   setFilters({
@@ -440,6 +452,7 @@ export default function AdminParticipantsPage() {
                     search: '',
                     payment_status: ''
                   })
+                  setRefresh(true)
                 }}
                 variant="outline"
               >
@@ -452,7 +465,7 @@ export default function AdminParticipantsPage() {
           <Card className="p-6">
             {loading ? (
               <div className="text-center py-12">
-                <Iconify 
+                <Iconify
                   icon="svg-spinners:ring-resize"
                   className="h-12 w-12 mx-auto mb-4 text-trail-500"
                 />
@@ -460,7 +473,7 @@ export default function AdminParticipantsPage() {
               </div>
             ) : error ? (
               <div className="text-center py-12">
-                <Iconify 
+                <Iconify
                   icon="heroicons:exclamation-triangle"
                   className="h-12 w-12 mx-auto mb-4 text-red-500"
                 />
@@ -469,7 +482,7 @@ export default function AdminParticipantsPage() {
               </div>
             ) : participants.length === 0 ? (
               <div className="text-center py-12">
-                <Iconify 
+                <Iconify
                   icon="heroicons:user-group"
                   className="h-16 w-16 mx-auto mb-4 text-forest-600"
                 />
@@ -526,7 +539,7 @@ export default function AdminParticipantsPage() {
                                 </div>
                               </div>
                             </td>
-                            
+
                             <td className="py-4 px-4">
                               {participant.events ? (
                                 <div>
@@ -539,7 +552,7 @@ export default function AdminParticipantsPage() {
                                 <span className="text-forest-400 italic">Event not found</span>
                               )}
                             </td>
-                            
+
                             <td className="py-4 px-4">
                               <div className="text-sm">
                                 <div className="font-mono text-xs text-forest-400 mb-1">
@@ -548,7 +561,7 @@ export default function AdminParticipantsPage() {
                                 <div>{formatDateTime(participant.registration_date)}</div>
                               </div>
                             </td>
-                            
+
                             <td className="py-4 px-4">
                               <div>
                                 <div className="flex items-center gap-2 mb-2">
@@ -566,7 +579,7 @@ export default function AdminParticipantsPage() {
                                 )}
                               </div>
                             </td>
-                            
+
                             <td className="py-4 px-4">
                               <div className="flex items-center gap-2">
                                 <button
@@ -574,12 +587,12 @@ export default function AdminParticipantsPage() {
                                   className="p-2 text-forest-400 hover:text-trail-500 transition-colors"
                                   title="View Details"
                                 >
-                                  <Iconify 
-                                    icon={showDetails === participant.id ? "heroicons:eye-slash" : "heroicons:eye"} 
-                                    className="h-4 w-4" 
+                                  <Iconify
+                                    icon={showDetails === participant.id ? "heroicons:eye-slash" : "heroicons:eye"}
+                                    className="h-4 w-4"
                                   />
                                 </button>
-                                
+
                                 {/* Payment Status Actions */}
                                 <div className="relative group">
                                   <button
@@ -588,7 +601,7 @@ export default function AdminParticipantsPage() {
                                   >
                                     <Iconify icon="heroicons:banknotes" className="h-4 w-4" />
                                   </button>
-                                  
+
                                   <div className="absolute right-0 top-full mt-1 w-48 bg-forest-900 border border-forest-700 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10">
                                     <div className="p-2 space-y-1">
                                       <button
@@ -615,7 +628,7 @@ export default function AdminParticipantsPage() {
                                     </div>
                                   </div>
                                 </div>
-                                
+
                                 <button
                                   onClick={() => {
                                     navigator.clipboard.writeText(participant.unique_code)
@@ -629,7 +642,7 @@ export default function AdminParticipantsPage() {
                               </div>
                             </td>
                           </tr>
-                          
+
                           {/* Details Row */}
                           {showDetails === participant.id && (
                             <tr className="border-b border-forest-800 bg-forest-900/30">
@@ -650,7 +663,7 @@ export default function AdminParticipantsPage() {
                                         </div>
                                       </div>
                                     </div>
-                                    
+
                                     <h4 className="font-bold mt-6 mb-3 text-trail-400">Emergency Contact</h4>
                                     <div className="space-y-2 text-sm">
                                       <div>
@@ -667,7 +680,7 @@ export default function AdminParticipantsPage() {
                                       </div>
                                     </div>
                                   </div>
-                                  
+
                                   {/* Medical Notes */}
                                   <div>
                                     <h4 className="font-bold mb-3 text-trail-400">Medical Information</h4>
@@ -681,7 +694,7 @@ export default function AdminParticipantsPage() {
                                         )}
                                       </div>
                                     </div>
-                                    
+
                                     <h4 className="font-bold mt-6 mb-3 text-trail-400">System Information</h4>
                                     <div className="space-y-2 text-sm">
                                       <div>
@@ -721,7 +734,7 @@ export default function AdminParticipantsPage() {
                   <div className="text-sm text-forest-300">
                     Page {pagination.page} of {pagination.total_pages}
                   </div>
-                  
+
                   <div className="flex gap-2">
                     <button
                       onClick={() => handlePageChange(pagination.page - 1)}
@@ -731,7 +744,7 @@ export default function AdminParticipantsPage() {
                       <Iconify icon="heroicons:chevron-left" className="h-4 w-4" />
                       Previous
                     </button>
-                    
+
                     {/* Page Numbers */}
                     <div className="flex gap-1">
                       {Array.from({ length: Math.min(5, pagination.total_pages) }, (_, i) => {
@@ -745,23 +758,22 @@ export default function AdminParticipantsPage() {
                         } else {
                           pageNum = pagination.page - 2 + i
                         }
-                        
+
                         return (
                           <button
                             key={pageNum}
                             onClick={() => handlePageChange(pageNum)}
-                            className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                              pagination.page === pageNum
-                                ? 'bg-trail-500 text-white'
-                                : 'border border-forest-700 text-forest-300 hover:border-trail-500 hover:text-trail-500'
-                            }`}
+                            className={`w-10 h-10 rounded-lg flex items-center justify-center ${pagination.page === pageNum
+                              ? 'bg-trail-500 text-white'
+                              : 'border border-forest-700 text-forest-300 hover:border-trail-500 hover:text-trail-500'
+                              }`}
                           >
                             {pageNum}
                           </button>
                         )
                       })}
                     </div>
-                    
+
                     <button
                       onClick={() => handlePageChange(pagination.page + 1)}
                       disabled={!pagination.has_next}

@@ -144,7 +144,7 @@ export default function AdminDashboardPage() {
                 You are logged in as an administrator.
               </p>
               
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 hidden">
                 {/* Quick Stats Cards */}
                 <Card className="hover:border-trail-500/30 transition-colors p-6">
                   <div className="flex items-center justify-between">

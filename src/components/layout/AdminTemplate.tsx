@@ -215,7 +215,7 @@ export default function AdminTemplate({ children }: AdminTemplateProps) {
       </aside>
 
       {/* Main Content */}
-      <div className="w-full md:w-[80%] lg:ml-20 ">
+      <div className="w-full md:w-[80%] ">
         {/* Top Bar */}
         <header className="sticky top-0 z-30 border-b border-forest-800 bg-forest-950/95 backdrop-blur-md lg:hidden">
           <div className="px-4 py-6">
