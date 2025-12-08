@@ -69,8 +69,8 @@ export default function AdminParticipantsPage() {
     const loadEvents = async () => {
       try {
         const response = await eventsApi.getAll()
-        if (response.success && response.data) {
-          setEvents(response.data)
+        if (response.success && response.data) {          
+          setEvents(response.data as any)
         }
       } catch (err) {
         console.error('Failed to load events:', err)
