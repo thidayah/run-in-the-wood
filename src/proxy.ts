@@ -6,7 +6,7 @@ const JWT_SECRET = new TextEncoder().encode(
   process.env.JWT_SECRET || 'your-32-character-secret-key-change-in-production-min-32-chars'
 )
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const token = request.cookies.get('auth_token')?.value
   const path = request.nextUrl.pathname
   
