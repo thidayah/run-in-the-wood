@@ -114,7 +114,7 @@ Mohon konfirmasi pembayaran saya. Terima kasih!
 
     // Encode message URL
     const encodedMessage = encodeURIComponent(message)
-    const whatsappNumber = '6287737815286'
+    const whatsappNumber = '6285183081136'
     window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank')
   }
 
@@ -405,7 +405,7 @@ Mohon konfirmasi pembayaran saya. Terima kasih!
                 <h3 className="font-heading text-lg font-bold mb-3">Need Help?</h3>
                 <div className="space-y-3">
                   <a
-                    href={`https://wa.me/6287737815286?text=Halo%20Run%20in%20the%20Wood,%20saya%20membutuhkan%20bantuan%20untuk%20order%20${orderData.unique_code}`}
+                    href={`https://wa.me/6285183081136?text=Halo%20Run%20in%20the%20Wood,%20saya%20membutuhkan%20bantuan%20untuk%20order%20${orderData.unique_code}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-3 p-3 rounded-lg border border-forest-700 hover:border-trail-500 hover:bg-trail-500/5 transition-all group"

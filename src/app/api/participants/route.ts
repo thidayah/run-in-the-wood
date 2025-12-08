@@ -193,7 +193,11 @@ export async function GET(request: NextRequest) {
     // First, get total count to validate page range
     let countQuery = supabaseServer
       .from('participants')
-      .select('*', { count: 'exact', head: true })
+      .select(`*,
+         events!inner (*)`, 
+        { count: 'exact', head: true }
+      )
+      .eq('events.registration_open', true)
 
     // Apply filters to count query too
     if (eventId) {
@@ -232,7 +236,7 @@ export async function GET(request: NextRequest) {
     // If no data but page is 1, return empty result
     if (total === 0) {
       const responseData = {
-        participants: [],
+        items: [],
         pagination: {
           page: 1,
           limit,
@@ -266,15 +270,20 @@ export async function GET(request: NextRequest) {
       .from('participants')
       .select(`
         *,
-        events (
+        events!inner (
           id,
           title,
           date,
           location,
           distance,
-          elevation
+          elevation,
+          registration_open
         )
       `)
+      .eq('events.registration_open', true)
+
+
+    // query = query.eq('event.registration_open', true)
 
     // Apply filters (same as count query)
     if (eventId) {
