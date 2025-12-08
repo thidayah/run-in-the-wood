@@ -358,15 +358,15 @@ Mohon konfirmasi pembayaran saya. Terima kasih!
                       <div className="grid grid-cols-2 gap-3 text-sm">
                         <div>
                           <p className="text-forest-400">Full Name</p>
-                          <p className="font-medium">{orderData.full_name}</p>
+                          <p className="font-medium truncate max-w-60">{orderData.full_name}</p>
                         </div>
                         <div>
                           <p className="text-forest-400">Gender</p>
                           <p className="font-medium capitalize">{orderData.gender}</p>
                         </div>
                         <div>
-                          <p className="text-forest-400">Email</p>
-                          <p className="font-medium">{orderData.email}</p>
+                          <p className="text-forest-400 ">Email</p>
+                          <p className="font-medium truncate max-w-60">{orderData.email}</p>
                         </div>
                         <div>
                           <p className="text-forest-400">Phone</p>

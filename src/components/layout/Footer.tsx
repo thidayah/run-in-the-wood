@@ -133,7 +133,7 @@ export default function Footer() {
                 {/* <a href="https://www.x.com/sobatsabtu" target="_blank" className="text-forest-400 hover:text-trail-500">
                   <Iconify icon={ICONS.twitter} className="h-6 w-6" />
                 </a> */}
-                <a href="mailtomailto:info@runminders.com" target="_blank" className="text-forest-400 hover:text-trail-500">
+                <a href="mailto:info@runminders.com" target="_blank" className="text-forest-400 hover:text-trail-500">
                   <Iconify icon={ICONS.mail} className="h-6 w-6" />
                 </a>
               </div>
