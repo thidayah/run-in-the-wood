@@ -39,24 +39,24 @@ export const eventsApi = {
   getById: (id: string) => apiRequest<Event>(`/events/${id}`),
 
   // POST create event
-  // create: (eventData: CreateEvent) => 
-  //   apiRequest<Event>('/events', {
-  //     method: 'POST',
-  //     body: JSON.stringify(eventData),
-  //   }),
+  create: (eventData: CreateEvent) => 
+    apiRequest<Event>('/events', {
+      method: 'POST',
+      body: JSON.stringify(eventData),
+    }),
 
   // // PUT update event
-  // update: (id: string, eventData: UpdateEvent) => 
-  //   apiRequest<Event>(`/events/${id}`, {
-  //     method: 'PUT',
-  //     body: JSON.stringify(eventData),
-  //   }),
+  update: (id: string, eventData: UpdateEvent) => 
+    apiRequest<Event>(`/events/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(eventData),
+    }),
 
   // // DELETE event
-  // delete: (id: string) => 
-  //   apiRequest<null>(`/events/${id}`, {
-  //     method: 'DELETE',
-  //   }),
+  delete: (id: string) => 
+    apiRequest<null>(`/events/${id}`, {
+      method: 'DELETE',
+    }),
 
   // GET upcoming events
   getUpcoming: (limit?: number) =>
