@@ -41,77 +41,77 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
   }
 }
 
-// export async function PUT(request: NextRequest, { params }: RouteParams) {
-//   try {
-//     const { id } = await params
-//     const body: UpdateEvent = await request.json()
+export async function PUT(request: NextRequest, { params }: RouteParams) {
+  try {
+    const { id } = await params
+    const body: UpdateEvent = await request.json()
     
-//     if (!id) {
-//       return NextResponse.json(
-//         errorResponse('Event ID is required'),
-//         { status: 400 }
-//       )
-//     }
+    if (!id) {
+      return NextResponse.json(
+        errorResponse('Event ID is required'),
+        { status: 400 }
+      )
+    }
     
-//     // Validate if event exists
-//     try {
-//       await getEventById(id)
-//     } catch {
-//       return NextResponse.json(
-//         errorResponse('Event not found'),
-//         { status: 404 }
-//       )
-//     }
+    // Validate if event exists
+    try {
+      await getEventById(id)
+    } catch {
+      return NextResponse.json(
+        errorResponse('Event not found'),
+        { status: 404 }
+      )
+    }
     
-//     const updatedEvent = await updateEvent(id, body)
+    const updatedEvent = await updateEvent(id, body)
     
-//     return NextResponse.json(
-//       successResponse(updatedEvent, 'Event updated successfully'),
-//       { status: 200 }
-//     )
-//   } catch (error: any) {
-//     console.error('PUT /api/events/[id] error:', error)
+    return NextResponse.json(
+      successResponse(updatedEvent, 'Event updated successfully'),
+      { status: 200 }
+    )
+  } catch (error: any) {
+    console.error('PUT /api/events/[id] error:', error)
     
-//     return NextResponse.json(
-//       errorResponse('Failed to update event', error),
-//       { status: 500 }
-//     )
-//   }
-// }
+    return NextResponse.json(
+      errorResponse('Failed to update event', error),
+      { status: 500 }
+    )
+  }
+}
 
-// export async function DELETE(request: NextRequest, { params }: RouteParams) {
-//   try {
-//     const { id } = await params
+export async function DELETE(request: NextRequest, { params }: RouteParams) {
+  try {
+    const { id } = await params
     
-//     if (!id) {
-//       return NextResponse.json(
-//         errorResponse('Event ID is required'),
-//         { status: 400 }
-//       )
-//     }
+    if (!id) {
+      return NextResponse.json(
+        errorResponse('Event ID is required'),
+        { status: 400 }
+      )
+    }
     
-//     // Validate if event exists
-//     try {
-//       await getEventById(id)
-//     } catch {
-//       return NextResponse.json(
-//         errorResponse('Event not found'),
-//         { status: 404 }
-//       )
-//     }
+    // Validate if event exists
+    try {
+      await getEventById(id)
+    } catch {
+      return NextResponse.json(
+        errorResponse('Event not found'),
+        { status: 404 }
+      )
+    }
     
-//     await deleteEvent(id)
+    await deleteEvent(id)
     
-//     return NextResponse.json(
-//       successResponse(null, 'Event deleted successfully'),
-//       { status: 200 }
-//     )
-//   } catch (error: any) {
-//     console.error('DELETE /api/events/[id] error:', error)
+    return NextResponse.json(
+      successResponse(null, 'Event deleted successfully'),
+      { status: 200 }
+    )
+  } catch (error: any) {
+    console.error('DELETE /api/events/[id] error:', error)
     
-//     return NextResponse.json(
-//       errorResponse('Failed to delete event', error),
-//       { status: 500 }
-//     )
-//   }
-// }
+    return NextResponse.json(
+      errorResponse('Failed to delete event', error),
+      { status: 500 }
+    )
+  }
+}

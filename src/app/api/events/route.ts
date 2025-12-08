@@ -20,30 +20,30 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// export async function POST(request: NextRequest) {
-//   try {
-//     const body: CreateEvent = await request.json()
+export async function POST(request: NextRequest) {
+  try {
+    const body: CreateEvent = await request.json()
     
-//     // Validation
-//     if (!body.title || !body.date || !body.location || !body.distance || body.price === undefined) {
-//       return NextResponse.json(
-//         errorResponse('Missing required fields: title, date, location, distance, price'),
-//         { status: 400 }
-//       )
-//     }
+    // Validation
+    if (!body.title || !body.date || !body.location || !body.distance || body.price === undefined) {
+      return NextResponse.json(
+        errorResponse('Missing required fields: title, date, location, distance, price'),
+        { status: 400 }
+      )
+    }
     
-//     const event = await createEvent(body)
+    const event = await createEvent(body)
     
-//     return NextResponse.json(
-//       successResponse(event, 'Event created successfully'),
-//       { status: 201 }
-//     )
-//   } catch (error: any) {
-//     console.error('POST /api/events error:', error)
+    return NextResponse.json(
+      successResponse(event, 'Event created successfully'),
+      { status: 201 }
+    )
+  } catch (error: any) {
+    console.error('POST /api/events error:', error)
     
-//     return NextResponse.json(
-//       errorResponse('Failed to create event', error),
-//       { status: 500 }
-//     )
-//   }
-// }
+    return NextResponse.json(
+      errorResponse('Failed to create event', error),
+      { status: 500 }
+    )
+  }
+}
