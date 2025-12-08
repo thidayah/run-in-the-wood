@@ -50,4 +50,10 @@ export const ICONS = {
   checkCircle: 'heroicons:check-circle',
   loading: 'svg-spinners:ring-resize',
   search: 'heroicons:magnifying-glass',
+  lock: 'heroicons:lock-closed',
+  login: 'heroicons:arrow-right-on-rectangle',
+  logout: 'heroicons:arrow-left-on-rectangle',
+  dashboard: 'heroicons:squares-2x2',
+  eye: 'heroicons:eye',
+  active: 'heroicons:signal',
 }

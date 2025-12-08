@@ -107,10 +107,20 @@ export default function EventCard({ event }: { event: Event }) {
         {/* Action Button */}
         <Button
           className="w-full"
-          disabled={!event.registration_open}
+          // disabled={!event.registration_open}
+          disabled={event.registration_open && new Date(event.date) >= new Date() ? 
+            event.current_participants < event.max_participants ?
+              false : true
+            : true
+          }
           onClick={() => router.push(`/registration/${event.id}`)}
         >
-          {event.registration_open ? 'Register Now' : 'Sold Out'}
+          {/* {event.registration_open ? 'Register Now' : 'Sold Out'} */}
+          {event.registration_open && new Date(event.date) >= new Date() ? 
+            event.current_participants < event.max_participants ?
+              'Registrer Now' : 'Soldout'
+            : 'Closed'
+          }
         </Button>
       </div>
     </Card>

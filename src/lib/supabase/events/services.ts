@@ -6,7 +6,7 @@ export async function getAllEvents() {
   const { data, error } = await supabaseServer
     .from('events')
     .select('*')
-    .order('date', { ascending: true })
+    .order('date', { ascending: false })
   
   if (error) throw error
   return data as Event[]
@@ -21,7 +21,7 @@ export async function getUpcomingEvents(limit?: number) {
     .select('*')
     .gte('date', today)
     .eq('registration_open', true)
-    .order('date', { ascending: true })
+    .order('date', { ascending: false })
   
   if (limit) {
     query = query.limit(limit)
