@@ -59,7 +59,7 @@ export default function AboutSection() {
                       <Iconify icon={ICONS.runner} className="h-4 w-4 text-trail-400" />
                     </div>
                     <span className="text-sm font-medium text-white">
-                      Forest Trail Challenge
+                      Trail Challenge
                     </span>
                   </div>
                 </div>
@@ -68,7 +68,8 @@ export default function AboutSection() {
               {/* Top Right Image */}
               <div className="relative rounded-xl overflow-hidden">
                 <Image
-                  src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60"
+                  // src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60"
+                  src="https://images.unsplash.com/photo-1616430295549-d62d0c6acb8d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60"
                   alt="Trail running community"
                   width={400}
                   height={300}
@@ -80,7 +81,8 @@ export default function AboutSection() {
               {/* Bottom Right Image */}
               <div className="relative rounded-xl overflow-hidden">
                 <Image
-                  src="https://images.unsplash.com/photo-1571008887538-b36bb32f4571?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60"
+                  // src="https://images.unsplash.com/photo-1571008887538-b36bb32f4571?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60"
+                  src="https://images.unsplash.com/photo-1682686581854-5e71f58e7e3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60"
                   alt="Beautiful forest trail"
                   width={400}
                   height={300}

@@ -55,5 +55,10 @@ export const ICONS = {
   logout: 'heroicons:arrow-left-on-rectangle',
   dashboard: 'heroicons:squares-2x2',
   eye: 'heroicons:eye',
-  active: 'heroicons:signal',
+  active: 'heroicons:signal',  
+  download: 'heroicons:arrow-down-tray',
+  banknotes: 'heroicons:banknotes',
+  xCircle: 'heroicons:x-circle',
+  eyeSlash: 'heroicons:eye-slash',
+  clipboard: 'heroicons:clipboard-document',
 }

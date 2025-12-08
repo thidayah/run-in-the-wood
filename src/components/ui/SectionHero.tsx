@@ -43,7 +43,7 @@ export default function SectionHero() {
         <div className="inline-flex items-center gap-2 rounded-full border border-trail-500/30 bg-trail-500/10 px-4 py-2 mb-6">
           <span className="h-2 w-2 animate-pulse rounded-full bg-trail-500"></span>
           <span className="text-sm text-trail-400">
-            Next Event: Mountain Trail Challenge
+            Next Event: Cisadon Trail Challenge
           </span>
         </div>
 
@@ -68,7 +68,7 @@ export default function SectionHero() {
             />
           </Button>
           </Link>
-          <Button variant="outline" size="md" onClick={() => handleSmoothScroll('#about')}>
+          <Button className=" hidden md:block" variant="outline" size="md" onClick={() => handleSmoothScroll('#about')}>
             Learn More
           </Button>
         </div>
