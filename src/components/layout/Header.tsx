@@ -4,12 +4,14 @@ import { useEffect, useState } from 'react'
 // import { Button } from '@/components/ui/Button'
 import { Iconify, ICONS } from '@/lib/icons'
 import { usePathname, useRouter } from "next/navigation"
+import { Button } from "../ui/Button"
 
 const navigation = [
   { name: 'Home', href: '#home' },
   { name: 'About', href: '#about' },
   { name: 'Events', href: '#events' },
-  { name: 'Registration', href: '/events' },
+  { name: 'Participants', href: '/participants' },
+  // { name: 'Registration', href: '/events' },
 ]
 
 export default function Header() {
@@ -48,7 +50,7 @@ export default function Header() {
         setIsMenuOpen(false)
       } else {
         const targetId = href.substring(1)
-        router.push(`/${targetId === 'home' ? '/' : '#'+targetId}`)
+        router.push(`/${targetId === 'home' ? '/' : '#' + targetId}`)
       }
     } else {
       router.push(`${href}`)
@@ -101,7 +103,12 @@ export default function Header() {
                 {item.name}
               </a>
             ))}
-            {/* <Button>Register Now</Button> */}
+            <Button
+              size="md"
+              onClick={() => handleSmoothScroll('/events')}
+            >
+              Register Now
+            </Button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -132,9 +139,13 @@ export default function Header() {
                   {item.name}
                 </a>
               ))}
-              {/* <Button className="w-full mt-2">
+              <Button 
+                size="sm"
+                className="w-full mt-2"
+                onClick={() => handleSmoothScroll('/events')}
+              >
                 Register Now
-              </Button> */}
+              </Button>
             </div>
           </div>
         )}
