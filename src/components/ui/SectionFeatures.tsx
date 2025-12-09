@@ -31,7 +31,8 @@ export default function SectionFeatures() {
             description: "Join fellow trail runners"
           }
         ].map((feature, index) => (
-          <Card key={index} glow={index === 0} className="p-6">
+          // <Card key={index} glow={index === 0} className="p-6">
+          <Card key={index} className="p-6">
             <div className="text-trail-500 mb-4">
               <Iconify
                 icon={feature.icon}

@@ -118,7 +118,7 @@ export default function EventCard({ event }: { event: Event }) {
           {/* {event.registration_open ? 'Register Now' : 'Sold Out'} */}
           {event.registration_open && new Date(event.date) >= new Date() ? 
             event.current_participants < event.max_participants ?
-              'Registrer Now' : 'Soldout'
+              'Register Now' : 'Soldout'
             : 'Closed'
           }
         </Button>
