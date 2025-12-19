@@ -127,7 +127,7 @@ export default function RegistrationPage() {
       const participantData = {
         event_id: params.id,
         full_name: formData.fullName,
-        email: formData.email,
+        email: formData.email.toLocaleLowerCase(),
         phone_number: formData.phoneNumber,
         birth_date: formData.birthDate,
         gender: formData.gender,
@@ -147,7 +147,8 @@ export default function RegistrationPage() {
       }
     } catch (error) {
       console.error('Registration error:', error)
-      alert('Registration failed. Please try again.')
+      const errorMessage = error instanceof Error ? error.message : 'Registration failed. Please try again.'
+      alert(errorMessage)
     } finally {
       setIsSubmitting(false)
     }
