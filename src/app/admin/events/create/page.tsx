@@ -148,7 +148,7 @@ export default function CreateEventPage() {
                 </label>
                 <input
                   type="text"
-                  name="image"
+                  name="image_url"
                   value={formData.image_url}
                   onChange={handleChange}
                   className="w-full px-4 py-3 rounded-lg border border-forest-700 bg-forest-900 text-white placeholder-forest-500 focus:outline-none focus:border-trail-500"

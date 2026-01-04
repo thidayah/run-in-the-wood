@@ -93,6 +93,7 @@ export default function EditEventPage() {
       const eventData = {
         title: formData.title,
         description: formData.description || undefined,
+        image_url: formData.image_url || undefined,
         date: formData.date,
         location: formData.location,
         distance: formData.distance,
