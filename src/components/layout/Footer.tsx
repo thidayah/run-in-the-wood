@@ -124,7 +124,7 @@ export default function Footer() {
             <div>
               <h4 className="font-heading font-bold mb-4 md:text-right">Follow Us</h4>
               <div className="flex gap-4">
-                <a href={`https://wa.me/6285183081136?text=Halo%20Run%20in%20the%20Wood,%20saya%mau%bertanya`} target="_blank" className="text-forest-400 hover:text-trail-500">
+                <a href={`https://wa.me/6282125497596?text=Halo%20Run%20in%20the%20Wood,%20saya%mau%bertanya`} target="_blank" className="text-forest-400 hover:text-trail-500">
                   <Iconify icon={ICONS.whatsapp} className="h-6 w-6" />
                 </a>
                 <a href="https://www.instagram.com/sobatsabtu" target="_blank" className="text-forest-400 hover:text-trail-500">
