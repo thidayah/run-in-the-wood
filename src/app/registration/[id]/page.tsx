@@ -4,13 +4,13 @@ import { Event } from "@/lib/supabase/events/types"
 import RegistrationPage from "./RegistrationPage"
 
 const BASE_URL = process.env.NEXT_PUBLIC_APP_URL!
+const DEFAULT_IMAGE = `${BASE_URL}/images/ritw.jpeg`
 
-// Helper to ensure absolute URL
-const toAbsoluteUrl = (url: string) => {
-  if (!url) return `${BASE_URL}/images/ritw.jpeg`
-  if (url.startsWith('http://') || url.startsWith('https://')) return url
-  return `${BASE_URL}${url.startsWith('/') ? '' : '/'}${url}`
-}
+// const toAbsoluteUrl = (url: string) => {
+//   if (!url) return `${BASE_URL}/images/ritw.jpeg`
+//   if (url.startsWith('http://') || url.startsWith('https://')) return url
+//   return `${BASE_URL}${url.startsWith('/') ? '' : '/'}${url}`
+// }
 
 export async function generateMetadata({
   params,
@@ -22,7 +22,10 @@ export async function generateMetadata({
     const response = await eventsApi.getById(id)
     const event = response.data as unknown as Event
 
-    const imageUrl = toAbsoluteUrl(event.image_url || '/images/ritw.jpeg')
+    // const imageUrl = toAbsoluteUrl(event.image_url || '/images/ritw.jpeg')
+    const imageUrl = event.image_url?.startsWith('http')
+      ? event.image_url
+      : DEFAULT_IMAGE
 
     return {
       metadataBase: new URL(BASE_URL),
