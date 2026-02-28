@@ -3,6 +3,15 @@ import { eventsApi } from "@/lib/api-client"
 import { Event } from "@/lib/supabase/events/types"
 import RegistrationPage from "./RegistrationPage"
 
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL!
+
+// Helper to ensure absolute URL
+const toAbsoluteUrl = (url: string) => {
+  if (!url) return `${BASE_URL}/images/ritw.jpeg`
+  if (url.startsWith('http://') || url.startsWith('https://')) return url
+  return `${BASE_URL}${url.startsWith('/') ? '' : '/'}${url}`
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -13,19 +22,20 @@ export async function generateMetadata({
     const response = await eventsApi.getById(id)
     const event = response.data as unknown as Event
 
+    const imageUrl = toAbsoluteUrl(event.image_url || '/images/ritw.jpeg')
+
     return {
-      metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL!),
+      metadataBase: new URL(BASE_URL),
       title: `Register for ${event.title} | Run in the Wood`,
-      // description: `Join us for ${event.title}. Distance: ${event.distance}, Elevation: ${event.elevation}. Register now for ${event.price} IDR.`,
       description: `Join us for ${event.description}.`,
       openGraph: {
         title: `Register for ${event.title}`,
-        description: `Join the trail running event at ${event.location}`,
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/registration/${id}`,
+        description: `Join us for ${event.description}.`,
+        url: `${BASE_URL}/registration/${id}`,
         siteName: "Run in the Wood",
         images: [
           {
-            url: event.image_url || '/images/ritw.jpeg',
+            url: imageUrl,
             width: 900,
             height: 600,
             alt: `Register for ${event.title} - Run in the Wood`,
@@ -36,12 +46,12 @@ export async function generateMetadata({
       },
       twitter: {
         card: "summary_large_image",
-        images: [event.image_url || '/images/ritw.jpeg'],
+        images: [imageUrl],
       },
     }
   } catch (error) {
     return {
-      metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL!),
+      metadataBase: new URL(BASE_URL),
       title: 'Event Registration | Run in the Wood',
       description: 'Register for our trail running events',
     }
