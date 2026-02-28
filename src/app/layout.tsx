@@ -2,17 +2,20 @@ import type { Metadata } from 'next'
 //@ts-ignore
 import './globals.css'
 
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL!
+
 export const metadata: Metadata = {
+  metadataBase: new URL(BASE_URL),
   title: 'Run in the Wood - Run wild, Find Freedom',
   description: 'Challenge yourself in the wilderness. Join our trail running events in the heart of nature.',
   keywords: ['trail running', 'adventure', 'nature', 'running', 'outdoor', 'community running', 'running event', 'fun run'],
-   alternates: {
-    canonical: "https://www.run-in-the-wood.vercel.app/",
+  alternates: {
+    canonical: new URL(BASE_URL),
   },
   openGraph: {
     title: 'Run in the Wood - Run wild, Find Freedom',
     description: 'Challenge yourself in the wilderness. Join our trail running events in the heart of nature.',
-    url: "https://www.run-in-the-wood.vercel.app/",
+    url: new URL(BASE_URL),
     siteName: "Run in the Wood",
     images: [
       {
