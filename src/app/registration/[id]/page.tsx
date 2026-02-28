@@ -48,6 +48,6 @@ export async function generateMetadata({
   }
 }
 
-export default function Page({ params }: { params: { id: string } }) {
-  return <RegistrationPage params={params} />
+export default function Page() {
+  return <RegistrationPage />
 }
