@@ -13,6 +13,7 @@ export default function SectionEventsPreview() {
     try {
       setLoading(true)
       const response = await eventsApi.getUpcoming()
+      // const response = await eventsApi.getAll()
       if (response.success) {
         //@ts-ignore
         setEvents(response.data || [])
@@ -48,11 +49,18 @@ export default function SectionEventsPreview() {
         <h2 className="font-heading text-3xl font-bold text-center mb-12">
           Upcoming <span className="text-trail-500">Events</span>
         </h2>
-        {/* <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"> */}
-        <div className="flex flex-col md:flex-row gap-8 justify-center">
-          {events.map((event) => (
-            <EventCard key={event.id} event={event} />
-          ))}
+        <div className=" overflow-auto pb-8 no-scrollbar">
+          {events.length > 0 ? (
+            <div className={`flex gap-8 ${events.length == 1 ? 'justify-center' : events.length == 2 ? 'justify-start lg:justify-center' : 'justify-start '}`}>
+              {events.map((event) => (
+                <EventCard key={event.id} event={event} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center text-forest-300 ">
+              <p>No upcoming events at this time.</p>
+            </div>
+          )}
         </div>
       </div>
     </section>
