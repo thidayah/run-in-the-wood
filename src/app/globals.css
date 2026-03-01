@@ -6,7 +6,7 @@
 :root {
   /* Forest for background
   Trail for item */
-  
+
   /* --color-earth-800: #5d402a;
   --color-earth-900: #4f3626;
   --color-earth-950: #2c1d15; */
@@ -23,7 +23,7 @@
   --color-forest-800: #2b3f2b;
   --color-forest-900: #1a2d1a;
   --color-forest-950: #0f1f0f; */
-  
+
   /* --color-trail-50: #fef6ee;
   --color-trail-100: #fdead7;
   --color-trail-200: #f9d0ae;
@@ -32,7 +32,7 @@
   --color-trail-500: #ea6c24;
   --color-trail-600: #db511a;
   --color-trail-700: #b63d18; */
-  
+
   /* Theme 2 */
   /* --color-forest-50: #f6faf3;
   --color-forest-100: #e9f5e3;
@@ -69,7 +69,7 @@
   --color-forest-900: #1c1917;
   --color-forest-950: #0c0a09;
 
-   /* Stone Grays - Cool contrast */
+  /* Stone Grays - Cool contrast */
   /* --color-trail-50: #fafafa;
   --color-trail-100: #f5f5f5;
   --color-trail-200: #e5e5e5;
@@ -81,7 +81,7 @@
   --color-trail-800: #262626;
   --color-trail-900: #171717; */
 
-  
+
   /* Moonlit Grays - For shadows and depth */
   /* --color-forest-50: #f9fafb;
   --color-forest-100: #f3f4f6;
@@ -94,7 +94,7 @@
   --color-forest-800: #1f2937;
   --color-forest-900: #111827;
   --color-forest-950: #030712; */
-  
+
   /* Natural Greens - More earthy, less vibrant */
   /* --color-trail-50: #f6faf3;
   --color-trail-100: #e9f5e3;
@@ -107,8 +107,8 @@
   --color-trail-800: #34502a;
   --color-trail-900: #2c4224;
   --color-trail-950: #152311; */
-  
-  
+
+
   /* Sand/Tan - For neutral backgrounds */
   /* --color-trail-50: #fdfcf8;
   --color-trail-100: #f9f6eb;
@@ -120,7 +120,7 @@
   --color-trail-700: #907a46;
   --color-trail-800: #75633b;
   --color-trail-900: #605232; */
-  
+
   /* Bark Browns - For depth and contrast */
   /* --color-trail-50: #faf7f2;
   --color-trail-100: #f1e9db;
@@ -131,14 +131,14 @@
   --color-trail-600: #8a653c;
   --color-trail-700: #6f5133;
   --color-trail-800: #5b422b;
-  --color-trail-900: #4b3724; */  
+  --color-trail-900: #4b3724; */
 }
 
 /* Theme Configuration */
 @theme {
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-heading: 'Montserrat', system-ui, sans-serif;
-  
+
   --color-forest-50: var(--color-forest-50);
   --color-forest-100: var(--color-forest-100);
   --color-forest-200: var(--color-forest-200);
@@ -150,7 +150,7 @@
   --color-forest-800: var(--color-forest-800);
   --color-forest-900: var(--color-forest-900);
   --color-forest-950: var(--color-forest-950);
-  
+
   --color-trail-50: var(--color-trail-50);
   --color-trail-100: var(--color-trail-100);
   --color-trail-200: var(--color-trail-200);
@@ -159,27 +159,39 @@
   --color-trail-500: var(--color-trail-500);
   --color-trail-600: var(--color-trail-600);
   --color-trail-700: var(--color-trail-700);
-  
+
   --color-earth-800: var(--color-earth-800);
   --color-earth-900: var(--color-earth-900);
   --color-earth-950: var(--color-earth-950);
-  
+
   --radius-lg: 0.5rem;
   --radius-xl: 0.75rem;
   --radius-2xl: 1rem;
-  
+
   --animate-pulse-slow: pulse 3s ease-in-out infinite;
   --animate-float: float 6s ease-in-out infinite;
   --animate-glow: glow 2s ease-in-out infinite alternate;
-  
+
   @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-10px);
+    }
   }
-  
+
   @keyframes glow {
-    from { box-shadow: 0 0 10px rgba(234, 108, 36, 0.3); }
-    to { box-shadow: 0 0 20px rgba(234, 108, 36, 0.6); }
+    from {
+      box-shadow: 0 0 10px rgba(234, 108, 36, 0.3);
+    }
+
+    to {
+      box-shadow: 0 0 20px rgba(234, 108, 36, 0.6);
+    }
   }
 }
 
@@ -211,6 +223,19 @@ body {
   @apply bg-trail-500/30 text-white;
 }
 
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
 /* Forest Overlay Effect */
 .forest-overlay {
   @apply relative;
@@ -219,26 +244,55 @@ body {
 .forest-overlay::before {
   content: '';
   @apply absolute inset-0 pointer-events-none -z-10;
-  background: 
+  background:
     radial-gradient(circle at 20% 50%, rgba(85, 125, 85, 0.1) 0%, transparent 50%),
     radial-gradient(circle at 80% 20%, rgba(66, 99, 66, 0.05) 0%, transparent 50%);
 }
 
 .container {
   width: 100%;
-  @media (width >= 32rem /* 640px */) {
-    max-width: 32rem /* 560px */;
+  @media (width >=32rem
+
+    /* 640px */
+  ) {
+    max-width: 32rem
+      /* 560px */
+    ;
   }
-  @media (width >= 40rem /* 768px */) {
-    max-width: 40rem /* 672px */;
+
+  @media (width >=40rem
+
+    /* 768px */
+  ) {
+    max-width: 40rem
+      /* 672px */
+    ;
   }
-  @media (width >= 48rem /* 1024px */) {
-    max-width: 48rem /* 896px */;
+
+  @media (width >=48rem
+
+    /* 1024px */
+  ) {
+    max-width: 48rem
+      /* 896px */
+    ;
   }
-  @media (width >= 64rem /* 1280px */) {
-    max-width: 64rem /* 1120px */;
+
+  @media (width >=64rem
+
+    /* 1280px */
+  ) {
+    max-width: 64rem
+      /* 1120px */
+    ;
   }
-  @media (width >= 80rem /* 1536px */) {
-    max-width: 80rem /* 1344px */;
+
+  @media (width >=80rem
+
+    /* 1536px */
+  ) {
+    max-width: 80rem
+      /* 1344px */
+    ;
   }
 }
