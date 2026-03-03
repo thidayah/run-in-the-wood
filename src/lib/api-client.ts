@@ -39,21 +39,21 @@ export const eventsApi = {
   getById: (id: string) => apiRequest<Event>(`/events/${id}`),
 
   // POST create event
-  create: (eventData: CreateEvent) => 
+  create: (eventData: CreateEvent) =>
     apiRequest<Event>('/events', {
       method: 'POST',
       body: JSON.stringify(eventData),
     }),
 
   // // PUT update event
-  update: (id: string, eventData: UpdateEvent) => 
+  update: (id: string, eventData: UpdateEvent) =>
     apiRequest<Event>(`/events/${id}`, {
       method: 'PUT',
       body: JSON.stringify(eventData),
     }),
 
   // // DELETE event
-  delete: (id: string) => 
+  delete: (id: string) =>
     apiRequest<null>(`/events/${id}`, {
       method: 'DELETE',
     }),
@@ -94,6 +94,21 @@ export const participantsApi = {
   create: (participantData: CreateParticipant) =>
     apiRequest<{
       participant: Participant
+      unique_code: string
+      message: string
+    }>('/participants', {
+      method: 'POST',
+      body: JSON.stringify(participantData),
+    }),
+
+  // POST create participant V2 with payment integration
+  createV2: (participantData: CreateParticipant) =>
+    apiRequest<{
+      participant: Participant
+      payment: {
+        token: string
+        redirect_url: string
+      }
       unique_code: string
       message: string
     }>('/participants', {

@@ -28,7 +28,11 @@ export interface CreateParticipant {
   emergency_contact_name?: string
   emergency_contact_phone?: string
   medical_notes?: string
-  payment_amount?: number
+  payment_amount?: number,
+  payment?: {
+    token: string,
+    redirect_url: string
+  }
 }
 
 export interface UpdateParticipant {
