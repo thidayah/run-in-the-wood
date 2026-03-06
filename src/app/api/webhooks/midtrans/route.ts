@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
       payment_status = 'pending';
     }
     else if (['deny', 'cancel', 'expire'].includes(transaction_status)) {
-      payment_status = 'failed';
+      payment_status = 'expired';
     }
 
     const { data: dataParticipant } = await supabaseServer
