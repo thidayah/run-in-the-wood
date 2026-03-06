@@ -137,11 +137,21 @@ export default function RegistrationPage() {
         payment_amount: event?.price
       }
 
-      const response = await participantsApi.create(participantData)
+      // const response = await participantsApi.create(participantData) // v1 - create participant tanpa payment
+      const response = await participantsApi.createV2(participantData)
 
       if (response.success) {
         // Redirect ke payment page dengan unique code
-        router.push(`/order?code=${response.data?.unique_code}`)
+        // router.push(`/order?code=${response.data?.unique_code}`) // v1 - redirect ke order page
+        
+        const redirectUrl = response.data?.payment?.redirect_url;
+        if (redirectUrl) {
+          setTimeout(() => {
+            window.location.assign(redirectUrl);
+          }, 500);
+        } else {
+          console.error('Missing payment redirect URL');
+        }
       } else {
         console.error('Registration failed:', response.message)
       }
@@ -605,7 +615,7 @@ export default function RegistrationPage() {
                     </li>
                     <li className="flex items-start gap-2">
                       <Iconify icon={ICONS.check} className="h-4 w-4 text-trail-500 mt-0.5 shrink-0" />
-                      <span>Mandatory gear will be announced 1 week before event</span>
+                      <span>Mandatory gear will be announced 1 day before event</span>
                     </li>
                   </ul>
                 </Card>
