@@ -3,6 +3,7 @@ import { supabaseServer } from "@/lib/supabase/server"
 import { successResponse, errorResponse } from '@/lib/api-response'
 import { CreateParticipant } from "@/lib/supabase/participants/types"
 import { createSnapTransaction } from "@/lib/midtrans/client"
+import { sendRegistrationConfirmationEmail } from "@/lib/email"
 
 export async function POST(request: NextRequest) {
   try {
@@ -40,7 +41,7 @@ export async function POST(request: NextRequest) {
     // Check if event exists and registration is open
     const { data: event, error: eventError } = await supabaseServer
       .from('events')
-      .select('id, title, price, max_participants, current_participants, registration_open')
+      .select('id, title, date, price, max_participants, current_participants, registration_open')
       .eq('id', body.event_id)
       .single()
 
@@ -175,12 +176,24 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    const emailResult = await sendRegistrationConfirmationEmail({
+      orderId: participant.unique_code,
+      eventName: event.title,
+      eventDate: event.date,
+      participantName: participant.full_name,
+      participantEmail: participant.email,
+      paymentAmount: participant.payment_amount,
+      paymentUrl: paymentResult.redirect_url,
+      status: 'pending'
+    })
+
     return NextResponse.json(
       successResponse({
         participant,
         unique_code: uniqueCode,
         payment: paymentResult,
         paymentParameter: paymentParameter,
+        email: emailResult,
         message: 'Registration successful. Please complete payment.'
       }, 'Participant registered successfully'),
       { status: 201 }
