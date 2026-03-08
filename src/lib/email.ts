@@ -30,8 +30,7 @@ export async function sendRegistrationConfirmationEmail({
   try {
     const { data, error } = await resend.emails.send({
       from: `${process.env.RESEND_FROM_NAME} <${process.env.RESEND_FROM_EMAIL}>`,
-      // to: [participantEmail],
-      to: ['muhamadt84@gmail.com'],
+      to: [participantEmail],
       subject: `Registration Successful - ${eventName}`,
       react: RegsistrationConfirmationEmail({
         orderId,
@@ -71,8 +70,7 @@ export async function sendPaymentConfirmationEmail
   try {
     const { data, error } = await resend.emails.send({
       from: `${process.env.RESEND_FROM_NAME} <${process.env.RESEND_FROM_EMAIL}>`,
-      // to: [participantEmail],
-      to: ['muhamadt84@gmail.com'],
+      to: [participantEmail],
       subject: `Payment Confirmed - ${eventName}`,
       react: PaymentConfirmationEmail({
         orderId,
