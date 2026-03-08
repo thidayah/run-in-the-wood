@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { supabaseServer } from "@/lib/supabase/server"
 import { errorResponse, successResponse } from "@/lib/api-response";
+import { sendPaymentConfirmationEmail } from "@/lib/email";
 
 // Verify Midtrans signature (optional but recommended)
 function verifySignature(signature: string, orderId: string, statusCode: string, grossAmount: string, serverKey: string): boolean {
@@ -123,7 +124,7 @@ export async function POST(request: NextRequest) {
       const { error: updateParticipantError } = await supabaseServer
         .from('events')
         .update({
-          current_participants: Math.max(0, dataParticipant.events.current_participants - 1),
+          current_participants: Math.max(0, dataParticipant.event.current_participants - 1),
           updated_at: new Date().toISOString()
         })
         .eq('id', dataParticipant.event_id);
@@ -134,39 +135,55 @@ export async function POST(request: NextRequest) {
     }
 
     // // Update current participants
-    // if (payment_status === 'paid') {
-    //   const { error: updateParticipantError } = await supabaseServer
-    //     .from('categories')
-    //     .update({ current_participants: sequenceBib })
-    //     .eq('id', dataRegistration.category_id);
+    let emailResult = null
+    if (payment_status === 'paid') {
+      //   const { error: updateParticipantError } = await supabaseServer
+      //     .from('categories')
+      //     .update({ current_participants: sequenceBib })
+      //     .eq('id', dataRegistration.category_id);
 
-    //   if (updateParticipantError) {
-    //     return NextResponse.json({ status: false, message: 'Failed to update participants', error: updateParticipantError }, { status: 500 });
-    //   }
+      //   if (updateParticipantError) {
+      //     return NextResponse.json({ status: false, message: 'Failed to update participants', error: updateParticipantError }, { status: 500 });
+      //   }
 
-    //   // Send email payment successfully
-    //   const emailForm = {
-    //     email: dataRegistration.email,
-    //     name: dataRegistration.full_name,
-    //     category: dataRegistration.category?.name || 'Unknown Category',
-    //     registration_number: registrationNumber,
-    //     bib_number: bibNumber,
-    //     amount: parseFloat(gross_amount),
-    //     payment_date: payment_date!,
-    //     payment_method: payment_type,
-    //   };
+      //   // Send email payment successfully
+      //   const emailForm = {
+      //     email: dataRegistration.email,
+      //     name: dataRegistration.full_name,
+      //     category: dataRegistration.category?.name || 'Unknown Category',
+      //     registration_number: registrationNumber,
+      //     bib_number: bibNumber,
+      //     amount: parseFloat(gross_amount),
+      //     payment_date: payment_date!,
+      //     payment_method: payment_type,
+      //   };
 
-    //   const sendEmail = await registrationService.sendPaymentSuccess(emailForm);
+      //   const sendEmail = await registrationService.sendPaymentSuccess(emailForm);
 
-    //   if (!sendEmail.status) {
-    //     console.error('Failed to send payment success email:', sendEmail.error);
-    //     // Jangan return error, log saja karena pembayaran sudah sukses
-    //   }
-    // }
+      //   if (!sendEmail.status) {
+      //     console.error('Failed to send payment success email:', sendEmail.error);
+      //     // Jangan return error, log saja karena pembayaran sudah sukses
+      //   }
+
+      emailResult = await sendPaymentConfirmationEmail({
+        orderId: uniqueCode,
+        eventName: dataParticipant.event.title,
+        eventDate: dataParticipant.event.date,
+        participantName: dataParticipant.full_name,
+        participantEmail: dataParticipant.email,
+        paymentAmount: gross_amount,
+        paymentDate: new Date(transaction_time).toISOString(),
+        paymentMethod: payment_type.replace(/_/g, ' '),
+        status: 'paid'
+      })
+    }
 
     return NextResponse.json(
       successResponse(
-        updateStatusData,
+        {
+          participant: updateStatusData,
+          email: emailResult
+        },
         'Webhook processed'
       ),
       { status: 200 }
