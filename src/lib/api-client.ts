@@ -2,7 +2,8 @@ import { ApiResponse } from '@/lib/api-response'
 import { CreateEvent, UpdateEvent } from "./supabase/events/types"
 import { CreateParticipant, Participant, ParticipantsResponse } from "./supabase/participants/types"
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_APP_URL + '/api' || '/api'
+// const API_BASE_URL = process.env.NEXT_PUBLIC_APP_URL + '/api' || '/api'
+const API_BASE_URL = '/api'
 
 export async function apiRequest<T = any>(
   endpoint: string,
