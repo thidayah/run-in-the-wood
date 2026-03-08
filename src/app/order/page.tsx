@@ -114,7 +114,7 @@ Mohon konfirmasi pembayaran saya. Terima kasih!
 
     // Encode message URL
     const encodedMessage = encodeURIComponent(message)
-    const whatsappNumber = '6282125497596'
+    const whatsappNumber = process.env.NEXT_PUBLIC_CONTACT_WHATSAPP
     window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank')
   }
 
@@ -405,7 +405,7 @@ Mohon konfirmasi pembayaran saya. Terima kasih!
                 <h3 className="font-heading text-lg font-bold mb-3">Need Help?</h3>
                 <div className="space-y-3">
                   <a
-                    href={`https://wa.me/6282125497596?text=Halo%20Run%20in%20the%20Wood,%20saya%20membutuhkan%20bantuan%20untuk%20order%20${orderData.unique_code}`}
+                    href={`https://wa.me/${process.env.NEXT_PUBLIC_CONTACT_WHATSAPP}?text=Halo%20Run%20in%20the%20Wood,%20saya%20membutuhkan%20bantuan%20untuk%20order%20${orderData.unique_code}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-3 p-3 rounded-lg border border-forest-700 hover:border-trail-500 hover:bg-trail-500/5 transition-all group"
@@ -420,7 +420,7 @@ Mohon konfirmasi pembayaran saya. Terima kasih!
                     <Iconify icon={ICONS.mail} className="h-6 w-6 text-trail-500" />
                     <div>
                       <p className="font-medium text-sm">Email Support</p>
-                      <p className="text-xs text-forest-400">support@runinthewood.com</p>
+                      <p className="text-xs text-forest-400">info@runminders.com</p>
                     </div>
                   </div> */}
                 </div>
