@@ -112,7 +112,7 @@ export const participantsApi = {
       }
       unique_code: string
       message: string
-    }>('/participants', {
+    }>('/participants-v2', {
       method: 'POST',
       body: JSON.stringify(participantData),
     }),
