@@ -143,7 +143,7 @@ export default function RegistrationPage() {
       if (response.success) {
         // Redirect ke payment page dengan unique code
         // router.push(`/order?code=${response.data?.unique_code}`) // v1 - redirect ke order page
-        
+
         const redirectUrl = response.data?.payment?.redirect_url;
         if (redirectUrl) {
           setTimeout(() => {
@@ -441,6 +441,30 @@ export default function RegistrationPage() {
                       Terms & Conditions
                     </h3>
 
+                    {/* Important Notes */}
+                    <Card className="lg:hidden p-6 mb-6">
+                      <h4 className="font-heading text-lg font-bold mb-3">Important Notes</h4>
+
+                      <ul className="space-y-2 text-sm text-forest-300">
+                        <li className="flex items-start gap-2">
+                          <Iconify icon={ICONS.check} className="h-4 w-4 text-trail-500 mt-0.5 shrink-0" />
+                          <span>Payment must be completed within 1 hour of registration</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <Iconify icon={ICONS.check} className="h-4 w-4 text-trail-500 mt-0.5 shrink-0" />
+                          <span>Refund available up to 3 days before event</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <Iconify icon={ICONS.check} className="h-4 w-4 text-trail-500 mt-0.5 shrink-0" />
+                          <span>Registration will be scorched if request after deadline refund</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <Iconify icon={ICONS.check} className="h-4 w-4 text-trail-500 mt-0.5 shrink-0" />
+                          <span>Mandatory gear will be announced 2 days before event</span>
+                        </li>
+                      </ul>
+                    </Card>
+
                     <div className="space-y-4">
                       {/* Terms Agreement */}
                       <div className={`p-4 rounded-lg border ${errors.agreeTerms ? 'border-red-500 bg-red-500/5' : 'border-forest-700 bg-forest-900/30'
@@ -601,21 +625,25 @@ export default function RegistrationPage() {
                 </Card>
 
                 {/* Important Notes */}
-                <Card className="p-6">
+                <Card className="hidden lg:block p-6">
                   <h4 className="font-heading text-lg font-bold mb-3">Important Notes</h4>
 
                   <ul className="space-y-2 text-sm text-forest-300">
                     <li className="flex items-start gap-2">
                       <Iconify icon={ICONS.check} className="h-4 w-4 text-trail-500 mt-0.5 shrink-0" />
-                      <span>Payment must be completed within 1 hours of registration</span>
+                      <span>Payment must be completed within 1 hour of registration</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <Iconify icon={ICONS.check} className="h-4 w-4 text-trail-500 mt-0.5 shrink-0" />
-                      <span>Registration is non-refundable</span>
+                      <span>Refund available up to 3 days before event</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <Iconify icon={ICONS.check} className="h-4 w-4 text-trail-500 mt-0.5 shrink-0" />
-                      <span>Mandatory gear will be announced 1 day before event</span>
+                      <span>Registration will be scorched if request after deadline refund</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <Iconify icon={ICONS.check} className="h-4 w-4 text-trail-500 mt-0.5 shrink-0" />
+                      <span>Mandatory gear will be announced 2 days before event</span>
                     </li>
                   </ul>
                 </Card>
