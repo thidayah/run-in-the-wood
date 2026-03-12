@@ -251,6 +251,36 @@ export const PaymentConfirmationEmail = ({
             </table>
           </div>
 
+          <div style={{
+            textAlign: 'center',
+            margin: '30px 0'
+          }}>
+            <a
+              href={process.env.NEXT_PUBLIC_GROUP_WHATSAPP}
+              style={{
+                // display: 'inline-block',
+                backgroundColor: '#81c914',
+                color: 'white',
+                padding: '14px 60px',
+                borderRadius: '8px',
+                textDecoration: 'none',
+                fontSize: '16px',
+                fontWeight: '600px'
+              }}
+            >
+              Join Group Whatsapp
+            </a>
+            <p
+              style={{
+                color: '#d6d3d1',
+                fontSize: '12px',
+                marginTop: '20px'
+              }}
+            >
+              Or copy this link: {process.env.NEXT_PUBLIC_GROUP_WHATSAPP}
+            </p>
+          </div>
+
           {/* Footer */}
           <div style={{
             textAlign: 'center',

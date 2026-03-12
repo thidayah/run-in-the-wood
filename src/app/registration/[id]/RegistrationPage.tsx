@@ -148,7 +148,7 @@ export default function RegistrationPage() {
         if (redirectUrl) {
           setTimeout(() => {
             window.location.assign(redirectUrl);
-          }, 500);
+          }, 250);
         } else {
           console.error('Missing payment redirect URL');
         }
