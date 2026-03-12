@@ -194,13 +194,22 @@ export default function PaymentSuccessPage({ searchParams }: { searchParams: Pro
                 <span className="text-xs opacity-70 ml-2">({countdown}s)</span>
               </Button>
 
-              <Button
+              {/* <Button
                 variant="outline"
                 onClick={() => router.push('/participants')}
                 className="flex items-center gap-2"
               >
                 <Iconify icon={ICONS.users} className="h-5 w-5" />
                 View All Participants
+              </Button> */}
+
+              <Button
+                variant="outline"
+                onClick={() => window.open(process.env.NEXT_PUBLIC_GROUP_WHATSAPP, '_blank')}
+                className="flex items-center gap-2"
+              >
+                <Iconify icon={ICONS.users} className="h-5 w-5" />
+                Join Group Whatsapp
               </Button>
             </div>
 
