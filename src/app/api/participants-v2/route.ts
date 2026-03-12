@@ -67,20 +67,69 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Check if email already registered for this event
-    const { data: existingParticipant } = await supabaseServer
+    // // Check if email already registered for this event
+    // const { data: existingParticipant } = await supabaseServer
+    //   .from('participants')
+    //   .select('id')
+    //   .eq('event_id', body.event_id)
+    //   .eq('email', body.email)
+    //   .neq('payment_status', 'cancelled')
+    //   .single()
+
+    // if (existingParticipant) {
+    //   return NextResponse.json(
+    //     errorResponse('Email already registered for this event'),
+    //     { status: 400 }
+    //   )
+    // }
+
+    // Check existing registrations
+    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000)
+
+    const { data: existingRegistrations, error: checkError } = await supabaseServer
       .from('participants')
-      .select('id')
+      .select('id, payment_status, created_at')
       .eq('event_id', body.event_id)
       .eq('email', body.email)
-      .neq('payment_status', 'cancelled')
-      .single()
+      .in('payment_status', ['pending', 'paid'])
+      .order('created_at', { ascending: false })
 
-    if (existingParticipant) {
-      return NextResponse.json(
-        errorResponse('Email already registered for this event'),
-        { status: 400 }
+    if (checkError) {
+      return NextResponse.json(errorResponse('Failed to check existing registration'), { status: 500 })
+    }
+
+    if (existingRegistrations && existingRegistrations.length > 0) {
+      // Update pending to expired
+      const expiredPending = existingRegistrations.filter(
+        r => r.payment_status === 'pending' && new Date(r.created_at) < oneHourAgo
       )
+
+      if (expiredPending.length > 0) {
+        await supabaseServer
+          .from('participants')
+          .update({ payment_status: 'expired', updated_at: new Date().toISOString() })
+          .in('id', expiredPending.map(r => r.id))
+      }
+
+      // Check again if status still active after update
+      const hasPaid = existingRegistrations.some(r => r.payment_status === 'paid')
+      const hasPendingActive = existingRegistrations.some(r =>
+        (r.payment_status === 'pending' && new Date(r.created_at) >= oneHourAgo)
+      )
+
+      if (hasPaid) {
+        return NextResponse.json(
+          errorResponse('You are already registered and confirmed for this event. Please check your email for details.'),
+          { status: 400 }
+        )
+      }
+
+      if (hasPendingActive) {
+        return NextResponse.json(
+          errorResponse('Email already registered for this event. Please check your email to complete payment.'),
+          { status: 400 }
+        )
+      }
     }
 
     // Generate unique code (RITW{year}-{6 digits})

@@ -160,7 +160,7 @@ export default function PaymentSuccessPage({ searchParams }: { searchParams: Pro
 
                   {transactionData?.transaction_status === 'settlement' ? (
                     <div className="space-y-2 text-forest-300">
-                      <p>✓ Your payment has been confirmed and your registration is complete!</p>
+                      <p>✓ Your payment has been confirmed and your registration is completed!</p>
                       <p>✓ A confirmation email has been sent to your email address.</p>
                       <p>✓ Please check your inbox or spam/junk folder if you do not see the email.</p>
                       <p>✓ The WhatsApp group join link has been sent via email. Please join the group to receive the latest updates.</p>
