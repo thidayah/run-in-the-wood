@@ -31,7 +31,7 @@ export default function PaymentSuccessPage({ searchParams }: { searchParams: Pro
   const [transactionData, setTransactionData] = useState<TransactionData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [countdown, setCountdown] = useState(60) // 60 seconds\
+  const [countdown, setCountdown] = useState(100) // 100 seconds
 
   useEffect(() => {
     if (orderId && transactionStatus) {
