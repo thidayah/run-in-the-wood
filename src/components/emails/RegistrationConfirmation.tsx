@@ -39,7 +39,7 @@ export const RegsistrationConfirmationEmail = ({
           maxWidth: '600px',
           margin: '0 auto',
           padding: '20px',
-          backgroundColor: '#181b15a',
+          backgroundColor: '#0f1f0f',
           borderRadius: '12px',
           border: '1px solid #ffff'
         }}>
