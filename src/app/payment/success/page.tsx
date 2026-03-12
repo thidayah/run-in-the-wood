@@ -31,7 +31,7 @@ export default function PaymentSuccessPage({ searchParams }: { searchParams: Pro
   const [transactionData, setTransactionData] = useState<TransactionData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [countdown, setCountdown] = useState(60) // 60 seconds\
+  const [countdown, setCountdown] = useState(100) // 100 seconds
 
   useEffect(() => {
     if (orderId && transactionStatus) {
@@ -194,13 +194,22 @@ export default function PaymentSuccessPage({ searchParams }: { searchParams: Pro
                 <span className="text-xs opacity-70 ml-2">({countdown}s)</span>
               </Button>
 
-              <Button
+              {/* <Button
                 variant="outline"
                 onClick={() => router.push('/participants')}
                 className="flex items-center gap-2"
               >
                 <Iconify icon={ICONS.users} className="h-5 w-5" />
                 View All Participants
+              </Button> */}
+
+              <Button
+                variant="outline"
+                onClick={() => window.open(process.env.NEXT_PUBLIC_GROUP_WHATSAPP, '_blank')}
+                className="flex items-center gap-2"
+              >
+                <Iconify icon={ICONS.users} className="h-5 w-5" />
+                Join Group Whatsapp
               </Button>
             </div>
 
