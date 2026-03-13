@@ -11,6 +11,7 @@ const navigation = [
 export default function Footer() {
   const pathname = usePathname()
   const router = useRouter()
+  const logo = '/images/ritw-logo.svg'
 
   const handleSmoothScroll = (href: string) => {
     if (href.includes("#")) {
@@ -113,9 +114,10 @@ export default function Footer() {
                   icon={ICONS.tree}
                   className="h-8 w-8 text-trail-500"
                 />
-                <span className="font-heading text-xl font-bold">
+                {/* <span className="font-heading text-xl font-bold">
                   Run in the <span className="text-trail-500">Wood</span>
-                </span>
+                </span> */}
+                <img src={logo} className=" w-24" />
               </div>
               <p className="text-forest-400 text-sm">
                 © {new Date().getFullYear()} Run in the Wood. All rights reserved.
