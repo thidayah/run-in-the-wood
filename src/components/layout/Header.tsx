@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { Iconify, ICONS } from '@/lib/icons'
 import { usePathname, useRouter } from "next/navigation"
 import { Button } from "../ui/Button"
+import IcLogo from "../../../public/images/ritw-logo.svg"
 
 const navigation = [
   { name: 'Home', href: '#home' },
@@ -19,6 +20,8 @@ export default function Header() {
   const router = useRouter()
 
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  const logo = '/images/ritw-logo.svg'
 
   useEffect(() => {
     if (isMenuOpen) {
@@ -84,11 +87,12 @@ export default function Header() {
               icon={ICONS.tree}
               className="h-8 w-8 text-trail-500"
             />
-            <div>
+            {/* <div>
               <h1 className="font-heading text-xl font-bold">
                 Run in the <span className="text-trail-500">Wood</span>
               </h1>
-            </div>
+            </div> */}
+            <img src={logo} className=" w-24" />
           </div>
 
           {/* Desktop Navigation */}
