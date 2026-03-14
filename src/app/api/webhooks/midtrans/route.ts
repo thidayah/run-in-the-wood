@@ -137,7 +137,7 @@ export async function POST(request: NextRequest) {
 
     // // Update current participants
     let emailResult = null
-    if (payment_status === 'paid') {
+    if (payment_status === 'paid' && payment_date) {
       //   const { error: updateParticipantError } = await supabaseServer
       //     .from('categories')
       //     .update({ current_participants: sequenceBib })
