@@ -24,6 +24,17 @@ export function formatDate(dateString: string = '') {
   })
 }
 
+export function formatDateTime(dateString: string = '') {
+  return new Date(dateString).toLocaleDateString('en-US', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  })
+}
+
 export function normalizePhoneNumber(phone: string) {
   if (!phone) return '';
 
