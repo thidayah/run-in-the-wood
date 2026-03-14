@@ -64,7 +64,8 @@ export async function POST(request: NextRequest) {
     if (transaction_status === 'capture' || transaction_status === 'settlement') {
       if (fraud_status === 'accept') {
         payment_status = 'paid';
-        payment_date = new Date(transaction_time).toISOString();
+        // payment_date = new Date(transaction_time).toISOString();
+        payment_date = new Date(transaction_time + '+07:00').toISOString();
       }
     }
     else if (transaction_status === 'pending') {
@@ -109,7 +110,7 @@ export async function POST(request: NextRequest) {
         transaction_status: transaction_status,
         payment_type: payment_type,
         gross_amount: parseFloat(gross_amount),
-        transaction_time: new Date(transaction_time).toISOString(),
+        transaction_time: payment_date,
         raw_response: body, // save full response for debugging
       })
     // .select('*')
@@ -136,7 +137,7 @@ export async function POST(request: NextRequest) {
 
     // // Update current participants
     let emailResult = null
-    if (payment_status === 'paid') {
+    if (payment_status === 'paid' && payment_date) {
       //   const { error: updateParticipantError } = await supabaseServer
       //     .from('categories')
       //     .update({ current_participants: sequenceBib })
@@ -172,7 +173,7 @@ export async function POST(request: NextRequest) {
         participantName: dataParticipant.full_name,
         participantEmail: dataParticipant.email,
         paymentAmount: gross_amount,
-        paymentDate: new Date(transaction_time).toISOString(),
+        paymentDate: payment_date,
         paymentMethod: payment_type.replace(/_/g, ' '),
         status: 'paid'
       })
