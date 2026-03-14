@@ -9,6 +9,7 @@ import { Iconify, ICONS } from '@/lib/icons'
 import Template from "@/components/layout/Template"
 import { eventsApi, participantsApi } from "@/lib/api-client"
 import { Event } from "@/lib/supabase/events/types"
+import { normalizePhoneNumber } from "@/lib/utils"
 
 export default function RegistrationPage() {
   const params: { id: string } = useParams()
@@ -113,26 +114,15 @@ export default function RegistrationPage() {
     }
     setIsSubmitting(true)
     try {
-      // // Generate unique code untuk payment
-      // const uniqueCode = `RITW-${Date.now().toString().slice(-6)}`
-
-      // // Simpan data sementara
-      // sessionStorage.setItem('registrationData', JSON.stringify({
-      //   ...formData,
-      //   uniqueCode,
-      //   event: MOCK_EVENT,
-      //   registrationDate: new Date().toISOString()
-      // }))
-
       const participantData = {
         event_id: params.id,
         full_name: formData.fullName,
         email: formData.email.toLocaleLowerCase(),
-        phone_number: formData.phoneNumber,
+        phone_number: normalizePhoneNumber(formData.phoneNumber),
         birth_date: formData.birthDate,
         gender: formData.gender,
         emergency_contact_name: formData.emergencyContact,
-        emergency_contact_phone: formData.emergencyContactPhone,
+        emergency_contact_phone: normalizePhoneNumber(formData.emergencyContactPhone),
         medical_notes: formData.medicalNotes,
         payment_amount: event?.price
       }
