@@ -1,4 +1,4 @@
-import { formatDate, formatPrice } from "@/lib/utils"
+import { formatDate, formatDateTime, formatPrice } from "@/lib/utils"
 
 interface PaymentConfirmationEmailProps {
   orderId: string
@@ -218,7 +218,7 @@ export const PaymentConfirmationEmail = ({
                   color: '#ffffff',
                   fontSize: '14px',
                   textAlign: 'right'
-                }}>{formatDate(paymentDate)}</td>
+                }}>{formatDateTime(paymentDate)}</td>
               </tr>
               <tr>
                 <td style={{
