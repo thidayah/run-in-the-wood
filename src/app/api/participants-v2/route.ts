@@ -214,15 +214,10 @@ export async function POST(request: NextRequest) {
           name: event.title.substring(0, 50), // Maximal 50 char
         },
       ],
-    };
-
-    console.log('Payment Parameter:', paymentParameter);
-    
+    };    
 
     // Create Snap transaction
     const paymentResult = await createSnapTransaction(paymentParameter);
-
-    console.log('Payment Result:', paymentResult);
 
     if (!paymentResult) {
       return NextResponse.json(
