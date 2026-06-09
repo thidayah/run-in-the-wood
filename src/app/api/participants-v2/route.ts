@@ -210,13 +210,19 @@ export async function POST(request: NextRequest) {
           price: participant.payment_amount,
           quantity: 1,
           // @ts-ignore
-          name: `Run In The Wood - ${event.title}`,
+          // name: `Run In The Wood - ${event.title}`,
+          name: event.title.substring(0, 50), // Maximal 50 char
         },
       ],
     };
 
+    console.log('Payment Parameter:', paymentParameter);
+    
+
     // Create Snap transaction
     const paymentResult = await createSnapTransaction(paymentParameter);
+
+    console.log('Payment Result:', paymentResult);
 
     if (!paymentResult) {
       return NextResponse.json(
